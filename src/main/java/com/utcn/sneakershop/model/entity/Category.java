@@ -1,5 +1,6 @@
 package com.utcn.sneakershop.model.entity;
 
+import com.utcn.sneakershop.model.dto.CategoryDTO;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -16,4 +17,12 @@ public class Category {
     @Column(name = "name")
     private String name;
 
+    public Category(CategoryDTO categoryDTO){
+        this.name= categoryDTO.getName();
+    }
+
+
+    public Category() {
+
+    }
 }
