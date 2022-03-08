@@ -26,7 +26,7 @@ public class CategoryService {
 
     @Transactional
     public CategoryDTO getCategoryById(Long id){
-        return categoryRepository.findById(id).map(CategoryDTO::new).orElse(null);
+        return categoryRepository.findById(id).map(CategoryDTO::new).orElse(new CategoryDTO());
     }
 
     @Transactional
