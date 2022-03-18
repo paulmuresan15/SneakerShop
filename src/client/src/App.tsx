@@ -16,7 +16,7 @@ import ContactUs from "./Components/ContactUs";
 import { BrowserRouter as Router, Routes } from "react-router-dom";
 import Navigation from "./HomePage/Navigation";
 import Box from "@material-ui/core/Box";
-import Slideshow from "./HomePage/Slideshow";
+// import Slideshow from "./HomePage/Slideshow";
 import FirstPage from "./HomePage/FirstPage";
 
 function App() {
