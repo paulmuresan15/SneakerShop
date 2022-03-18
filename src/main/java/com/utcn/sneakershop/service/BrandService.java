@@ -8,10 +8,10 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.nio.file.Path;
-import java.nio.file.Paths;
+import java.io.*;
+import java.nio.file.*;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -63,30 +63,39 @@ public class BrandService {
     }
 
     private String changeLogoForBrand(BrandDTO brandDTO) {
-//         try{
-//             byte[] logo = Optional.ofNullable(brandDTO.getEncodedAvatar())
-//                     .filter(encodedAvatar -> !encodedAvatar.isBlank())
-//                     .map(string -> string.replace("data:image/png;base64",""))
-//                     .map(Base64::decodeBase64)
-//                     .orElse(null);
-//             savelogo(logo,brandDTO.getId());
-//         } catch (Exception e){
+         try{
+             byte[] logo = Optional.ofNullable(brandDTO.getEncodedAvatar())
+                     .filter(encodedAvatar -> !encodedAvatar.isBlank())
+                     .map(string -> string.replace("data:image/png;base64",""))
+                     .map(Base64::decodeBase64)
+                     .orElse(null);
+             return savelogo(logo,brandDTO.getId());
+         } catch (Exception e){
              return "";
-//         }
+         }
     }
 
-    private void savelogo(byte[] logo, Long id) {
-//        if(logo!=null){
-//            String brandId = id.toString();
-//            String filename=brandId + IMAGE_EXTENSION;
-//            File directory = new File(LOGO_STORAGE_PATH);
-//            if(!directory.exists()){
-//                directory.mkdirs();
-//            }
-//            Path path = Paths.get(LOGO_STORAGE_PATH + File.separator + filename);
-//            try{
-//                BufferedImage image =
-//            }
-//        }
+    //TODO: add resize photo
+    private String savelogo(byte[] logo, Long id) {
+        if(logo!=null){
+            String brandId = id.toString();
+            String filename=brandId + IMAGE_EXTENSION;
+            File directory = new File(LOGO_STORAGE_PATH);
+            if(!directory.exists()){
+                directory.mkdirs();
+            }
+            Path path = Paths.get(LOGO_STORAGE_PATH + File.separator + filename);
+            try{
+                InputStream inputStream = new ByteArrayInputStream(logo);
+                BufferedImage image = ImageIO.read(inputStream);
+                ByteArrayOutputStream logoOutput = new ByteArrayOutputStream();
+                ImageIO.write(image,IMAGE_EXTENSION,logoOutput);
+                Files.copy(new ByteArrayInputStream(logoOutput.toByteArray()),path, StandardCopyOption.REPLACE_EXISTING);
+                return path.toString();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return "";
     }
 }
