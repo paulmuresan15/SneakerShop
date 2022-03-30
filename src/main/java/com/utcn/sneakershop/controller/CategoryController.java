@@ -21,9 +21,16 @@ public class CategoryController {
     }
 
     @GetMapping
-    public List<CategoryDTO> getAllCategories() {
-        return categoryService.getAllCategories();
+    public ResponseEntity<List<CategoryDTO>> getAllCategories() {
+        try {
+            return new ResponseEntity<>(categoryService.getAllCategories(),HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
+
+
+
 
     @GetMapping("/{id}")
     public ResponseEntity<CategoryDTO> getCategoryById(@PathVariable(name = "id") Long id) {
@@ -44,10 +51,10 @@ public class CategoryController {
         }
     }
 
-    @PostMapping("/save")
-    public ResponseEntity<HttpStatus> saveNewCategory(CategoryDTO categoryDTO) {
+    @PostMapping("/add")
+    public ResponseEntity<HttpStatus> addNewCategory(CategoryDTO categoryDTO) {
         try {
-            categoryService.saveNewCategory(categoryDTO);
+            categoryService.addNewCategory(categoryDTO);
             return ResponseEntity.ok(HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
