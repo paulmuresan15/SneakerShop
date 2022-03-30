@@ -36,10 +36,10 @@ public class BrandController {
         }
     }
 
-    @PostMapping("/save")
-    public ResponseEntity<HttpStatus> saveNewBrand(BrandDTO brandDTO){
+    @PostMapping(value = "/add")
+    public ResponseEntity<HttpStatus> addNewBrand(BrandDTO brandDTO){
         try{
-            brandService.saveNewBrand(brandDTO);
+            brandService.addNewBrand(brandDTO);
             return ResponseEntity.ok(HttpStatus.OK);
         } catch (Exception e){
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
@@ -56,10 +56,13 @@ public class BrandController {
        }
     }
 
-//    @PostMapping("/edit")
-//    public ResponseEntity<HttpStatus> editBrand(BrandDTO brandDTO){
-//        try{
-//            brandService.editBrand(brandDTO);
-//        }
-//    }
+    @PostMapping(value = "/edit",consumes = "multipart/form-data")
+    public ResponseEntity<HttpStatus> editBrand(BrandDTO brandDTO){
+        try{
+            brandService.editBrand(brandDTO);
+            return ResponseEntity.ok(HttpStatus.OK);
+        } catch (Exception e){
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 }

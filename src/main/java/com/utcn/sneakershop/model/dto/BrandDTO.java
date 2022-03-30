@@ -4,6 +4,7 @@ import com.utcn.sneakershop.model.entity.Brand;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.web.multipart.MultipartFile;
 
 @Data
 @AllArgsConstructor
@@ -14,7 +15,7 @@ public class BrandDTO {
     private String name;
     private String logoUrl;
     private String description;
-    private String encodedAvatar;
+    private MultipartFile encodedAvatar;
 
     public BrandDTO(Brand brand) {
         this.id = brand.getId();

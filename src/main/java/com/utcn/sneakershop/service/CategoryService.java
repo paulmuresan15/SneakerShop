@@ -30,7 +30,7 @@ public class CategoryService {
     }
 
     @Transactional
-    public void saveNewCategory(CategoryDTO categoryDTO){
+    public void addNewCategory(CategoryDTO categoryDTO){
        categoryRepository.save(new Category(categoryDTO));
     }
 
