@@ -1,12 +1,15 @@
 package com.utcn.sneakershop.model.entity;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
 @Entity
 @Table(name="products")
 @Data
+@NoArgsConstructor
 public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,7 +27,9 @@ public class Product {
     private String name;
 
 
-
-
-
+    public Product(Category category, Brand brand, String name) {
+        this.category = category;
+        this.brand = brand;
+        this.name = name;
+    }
 }

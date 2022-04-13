@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -35,7 +36,7 @@ public class CategoryService {
     }
 
     @Transactional
-    public CategoryDTO getCategoryByName(String name){
+    public Optional<Category> getCategoryByName(String name){
         return categoryRepository.getByName(name);
     }
 

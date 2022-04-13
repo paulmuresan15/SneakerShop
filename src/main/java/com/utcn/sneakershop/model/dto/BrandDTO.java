@@ -23,4 +23,9 @@ public class BrandDTO {
         this.logoUrl = brand.getLogoUrl();
         this.description = brand.getDescription();
     }
+
+    public BrandDTO(Long id, String name) {
+        this.id = id;
+        this.name = name;
+    }
 }
