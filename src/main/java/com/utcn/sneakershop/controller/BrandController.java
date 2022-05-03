@@ -2,6 +2,7 @@ package com.utcn.sneakershop.controller;
 
 import com.utcn.sneakershop.model.dto.BrandDTO;
 import com.utcn.sneakershop.service.BrandService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -14,6 +15,7 @@ import java.util.List;
 public class BrandController {
     private final BrandService brandService;
 
+    @Autowired
     public BrandController(BrandService brandService) {
         this.brandService = brandService;
     }

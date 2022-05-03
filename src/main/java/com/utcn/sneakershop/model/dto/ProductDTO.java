@@ -14,6 +14,7 @@ public class ProductDTO {
     private String category;
     private String brand;
 
+    private String photoUrl;
     private List<StockDTO> stockDTOS;
 
     public ProductDTO(Long id, String name, String category, String brand) {
