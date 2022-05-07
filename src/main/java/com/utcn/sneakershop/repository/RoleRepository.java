@@ -15,4 +15,12 @@ public interface RoleRepository extends JpaRepository<Role,Long> {
             "left join User u on r.id=u.role.id " +
             "where u.id = :userId")
     Set<Role> findRolesForUser(@Param("userId") Long id);
+
+    @Query("select r from Role r " +
+            "where r.id=1")
+    Role findAdminRole();
+
+    @Query("select r from Role r " +
+            "where r.id=2")
+    Role findNormalUserRole();
 }

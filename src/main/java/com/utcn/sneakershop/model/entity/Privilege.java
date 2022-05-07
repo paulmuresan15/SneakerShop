@@ -16,6 +16,14 @@ public class Privilege {
     @Enumerated(EnumType.STRING)
     private PrivilegeName name;
 
+    public Privilege(PrivilegeName name) {
+        this.name = name;
+    }
+
+    public Privilege() {
+
+    }
+
     public enum PrivilegeName{
         NORMAL_USER,
         ADMIN;

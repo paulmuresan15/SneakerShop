@@ -6,15 +6,18 @@ import com.utcn.sneakershop.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import javax.annotation.security.RolesAllowed;
 import java.util.List;
 
 @Controller
 @RequestMapping("/products")
+@EnableMethodSecurity
 public class ProductController {
 
     private final ProductService productService;
@@ -34,6 +37,7 @@ public class ProductController {
     }
 
     @PostMapping("/add")
+    @RolesAllowed("ROLE_ADMIN")
     public ResponseEntity<HttpStatus> addNewProduct(ProductDTO productDTO){
         try{
             productService.addNewProduct(productDTO);

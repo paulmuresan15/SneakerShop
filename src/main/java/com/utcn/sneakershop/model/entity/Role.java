@@ -14,7 +14,10 @@ public class Role {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private RoleName name;
-    @OneToMany
+    @OneToMany(
+            fetch = FetchType.EAGER,
+            cascade = CascadeType.ALL
+    )
     @JoinTable(
             name="role_privilege",
             joinColumns = @JoinColumn( name="role_id"),
@@ -22,6 +25,18 @@ public class Role {
     )
     private Set<Privilege> privileges;
 
+    public Role(){
+
+    }
+    public Role(RoleName roleName, Set<Privilege> privileges) {
+        this.name=roleName;
+        this.privileges=privileges;
+    }
+
+    public Role(Long id,
+                RoleName name) {
+        this.name = name;
+    }
 
     public enum RoleName{
         ROLE_NORMAL_USER,

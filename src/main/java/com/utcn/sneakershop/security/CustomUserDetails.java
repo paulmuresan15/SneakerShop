@@ -12,7 +12,7 @@ public class CustomUserDetails extends User implements UserDetails {
     private Set<GrantedAuthority> grantedAuthorities;
 
     public CustomUserDetails(User user,Set<GrantedAuthority> grantedAuthorities) {
-        super();
+        super(user);
         this.grantedAuthorities = grantedAuthorities;
     }
 

@@ -12,6 +12,7 @@ import com.utcn.sneakershop.repository.StockRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.security.RolesAllowed;
 import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
@@ -39,6 +40,7 @@ public class ProductService {
     }
 
     @Transactional
+    @RolesAllowed("ROLE_ADMIN")
     public void addNewProduct(ProductDTO productDTO) throws Exception {
         Optional<Category> categoryOptional = categoryRepository.getByName(productDTO.getCategory());
         Optional<Brand> brandOptional = brandRepository.getByName(productDTO.getBrand());
