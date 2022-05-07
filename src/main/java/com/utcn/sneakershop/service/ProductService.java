@@ -54,7 +54,7 @@ public class ProductService {
 
     @Transactional
     public ProductDTO getProductById(Long id){
-        ProductDTO product = productRepository.getProductById(id);
+        ProductDTO product = productRepository.getProductDTOById(id);
         List<StockDTO> stockDetailsForProduct = stockRepository.getStockDetailsForProductById(id);
         product.setStockDTOS(stockDetailsForProduct);
         return product;

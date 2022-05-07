@@ -22,5 +22,6 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
             "left join Category c on p.category.id=c.id " +
             "left join Stock s on p.id=s.product.id " +
             "where s.quantity>0")
-    ProductDTO getProductById(@Param("id") Long id);
+    ProductDTO getProductDTOById(@Param("id") Long id);
+
 }
