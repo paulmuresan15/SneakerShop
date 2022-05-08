@@ -1,0 +1,107 @@
+.mainContainer {
+    display: flex;
+    height: 100%;
+    width: 100%;
+    flex-wrap: wrap;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: indianred;
+}
+
+.upContainer {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%
+}
+
+body {
+    height: 100%;
+    width: 100%;
+}
+
+.slide-container {
+    width: 100%;
+    margin: auto;
+    list-style: none;
+    padding: 0;
+}
+
+.logo {
+    height: 100%;
+}
+
+.each-slide>div {
+    align-items: center;
+    justify-content: center;
+    background-size: cover;
+    height: 4000px;
+}
+
+.navbar {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-items: flex-start;
+    justify-content: space-around;
+    width: 100%;
+    height: 300px;
+}
+
+p.navbarWriting {
+    font-size: 80px;
+    font-style: inherit;
+    color: darkblue;
+}
+
+.navbarIcon {
+    color: darkblue;
+    font-size: 150px;
+}
+
+.bg-navbarColor {
+    background-color: khaki;
+}
+
+.shoppingCart {
+    display: flex;
+    align-items: normal;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    flex-direction: column;
+}
+
+.numberOfItems {
+    /* vertical-align: top; */
+    color: darkblue;
+    font-size: 50px;
+}
+
+.addButton {
+    color: rebeccapurple;
+    width: 100px;
+    height: 100px;
+}
+
+p.addButton {
+    font-size: 25px;
+}
+
+.dropdownStyle {
+    font-size: 100px;
+    color: antiquewhite;
+}
+
+.footer {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 200px;
+}
