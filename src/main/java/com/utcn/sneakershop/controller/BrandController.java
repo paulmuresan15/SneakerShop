@@ -2,18 +2,25 @@ package com.utcn.sneakershop.controller;
 
 import com.utcn.sneakershop.model.dto.BrandDTO;
 import com.utcn.sneakershop.service.BrandService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.security.RolesAllowed;
 import java.util.List;
 
 @Controller
 @RequestMapping("/brands")
+@EnableMethodSecurity
 public class BrandController {
     private final BrandService brandService;
 
+    @Autowired
     public BrandController(BrandService brandService) {
         this.brandService = brandService;
     }
@@ -37,6 +44,7 @@ public class BrandController {
     }
 
     @PostMapping(value = "/add")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<HttpStatus> addNewBrand(BrandDTO brandDTO){
         try{
             brandService.addNewBrand(brandDTO);
@@ -47,6 +55,7 @@ public class BrandController {
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<HttpStatus> deleteBrandById(@PathVariable(name = "id") Long id){
        try{
            brandService.deleteBrandById(id);
@@ -57,6 +66,7 @@ public class BrandController {
     }
 
     @PostMapping(value = "/edit",consumes = "multipart/form-data")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<HttpStatus> editBrand(BrandDTO brandDTO){
         try{
             brandService.editBrand(brandDTO);

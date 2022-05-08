@@ -32,4 +32,9 @@ public class Brand {
         this.logoUrl= brandDTO.getLogoUrl();
         this.description= brandDTO.getDescription();
     }
+
+    public Brand(Long id, String name) {
+        this.id = id;
+        this.name = name;
+    }
 }

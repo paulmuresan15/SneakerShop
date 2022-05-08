@@ -5,6 +5,8 @@ import com.utcn.sneakershop.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,6 +14,7 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/categories")
+@EnableMethodSecurity
 public class CategoryController {
     private final CategoryService categoryService;
 
@@ -42,6 +45,7 @@ public class CategoryController {
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<HttpStatus> deleteCategoryById(@PathVariable(name = "id") Long id){
         try{
             categoryService.deleteCategoryById(id);
@@ -52,6 +56,7 @@ public class CategoryController {
     }
 
     @PostMapping("/add")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<HttpStatus> addNewCategory(CategoryDTO categoryDTO) {
         try {
             categoryService.addNewCategory(categoryDTO);
@@ -62,6 +67,7 @@ public class CategoryController {
     }
 
     @PostMapping("/edit")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<HttpStatus> editCategory(CategoryDTO categoryDTO){
         try{
             categoryService.editCategory(categoryDTO);
