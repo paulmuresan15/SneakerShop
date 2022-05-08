@@ -4,6 +4,7 @@ import com.utcn.sneakershop.model.dto.BrandDTO;
 import com.utcn.sneakershop.model.entity.Brand;
 import com.utcn.sneakershop.repository.BrandRepository;
 import com.utcn.sneakershop.utils.PhotoUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -31,8 +32,7 @@ public class BrandService {
     private String TARGET_HEIGHT;
 
 
-
-
+    @Autowired
     public BrandService(BrandRepository brandRepository, PhotoUtils photoUtils) {
         this.brandRepository = brandRepository;
         this.photoUtils = photoUtils;
@@ -63,30 +63,29 @@ public class BrandService {
         brandRepository.findById(brandDTO.getId()).ifPresent(brand -> {
             brand.setName(brandDTO.getName());
             brand.setDescription(brandDTO.getDescription());
-            if (brandDTO.getEncodedAvatar()!=null) {
+            if (brandDTO.getEncodedAvatar() != null) {
                 brand.setLogoUrl(changeLogoForBrand(brandDTO));
             }
         });
     }
 
     private String changeLogoForBrand(BrandDTO brandDTO) {
-         try{
-             return saveLogo(brandDTO.getEncodedAvatar(),brandDTO.getId());
-         } catch (Exception e){
-             return "";
-         }
+        try {
+            return saveLogo(brandDTO.getEncodedAvatar(), brandDTO.getId());
+        } catch (Exception e) {
+            return "";
+        }
     }
 
 
     private String saveLogo(MultipartFile logo, Long id) {
-        if(logo!=null){
+        if (logo != null) {
             String brandId = id.toString();
-            String filename=brandId + "." + IMAGE_EXTENSION;
-            return photoUtils.savePhoto(logo,filename,LOGO_STORAGE_PATH,IMAGE_EXTENSION,TARGET_WIDTH,TARGET_HEIGHT);
+            String filename = brandId + "." + IMAGE_EXTENSION;
+            return photoUtils.savePhoto(logo, filename, LOGO_STORAGE_PATH, IMAGE_EXTENSION, TARGET_WIDTH, TARGET_HEIGHT);
         }
         return "";
     }
-
 
 
 }

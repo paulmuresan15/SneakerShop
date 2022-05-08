@@ -26,4 +26,12 @@ public class CartProduct {
 
     @Column(name = "size")
     private String size;
+
+
+    public CartProduct(Product product, Cart cart, int quantity, String size) {
+        this.product = product;
+        this.cart = cart;
+        this.quantity = quantity;
+        this.size = size;
+    }
 }
