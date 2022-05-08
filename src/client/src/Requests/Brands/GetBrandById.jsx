@@ -23,9 +23,6 @@ function GetBrandById() {
       <div>
         <h2> {state.name}</h2>
       </div>
-      {/* <div>
-        <img src={path} alt="logo" />
-      </div> */}
     </div>
   );
 }

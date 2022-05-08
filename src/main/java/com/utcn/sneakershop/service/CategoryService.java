@@ -21,7 +21,8 @@ public class CategoryService {
 
     @Transactional
     public List<CategoryDTO> getAllCategories(){
-        return categoryRepository.findAll().stream().map(CategoryDTO::new).collect(Collectors.toList());
+        List<CategoryDTO> categories = categoryRepository.findAll().stream().map(CategoryDTO::new).collect(Collectors.toList());
+        return categories;
     }
 
     @Transactional

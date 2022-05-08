@@ -1,4 +1,4 @@
-import React from "react";
+import React,{useContext} from "react";
 import { Navbar, Nav, Container, NavDropdown } from "react-bootstrap";
 import "../styles/styles.css";
 import { AiOutlineShoppingCart } from "react-icons/ai";
@@ -6,19 +6,22 @@ import FirstPage from "./FirstPage";
 import Elegant from "../MainCategories/Elegant/Elegant";
 import Sport from "../MainCategories/Sport/Sport";
 import Casual from "../MainCategories/Casual/Casual";
-import Login from "./Login/Login";
-import Register from "./Register/Register";
+import Login from "./User/Login";
+import Register from "./User/Register";
 import DisplayNumberOfItems from "../ShoppingCart/controls/DisplayNumberOfItems";
 import { useState } from "react";
 import RegisterIcon from "./components/RegisterIcon";
 import { IconContext } from "react-icons";
 import logo from "../Pictures/logo.png";
+import { UserContext } from "./User/UserContext";
 
 function Navigation() {
   const [counter, setCounter] = useState(0);
   function incrementCounter() {
     setCounter(counter + 1);
   }
+
+  const { user } = useContext(UserContext);
 
   return (
     <Navbar
@@ -54,19 +57,19 @@ function Navigation() {
               </Nav.Link>
             </Nav>
             <Nav>
-              <Nav.Link exact href="/ShoppingCart">
+              <Nav.Link href="/ShoppingCart">
                 <IconContext.Provider value={{ className: "navbarIcon" }}>
                   {" "}
                   <AiOutlineShoppingCart />{" "}
                 </IconContext.Provider>
               </Nav.Link>
-              <DisplayNumberOfItems message={counter} />
+              {/* <DisplayNumberOfItems/> */}
               {/* <ShowButton data={incrementCounter} /> */}
               <NavDropdown align="end" title={<RegisterIcon />}>
-                <NavDropdown.Item exact href="/Register" element={<Register />}>
+                <NavDropdown.Item href="/Register" element={<Register />}>
                   <p className="navbarWriting">Register</p>
                 </NavDropdown.Item>
-                <NavDropdown.Item exact href="/Login" element={<Login />}>
+                <NavDropdown.Item href="/Login" element={<Login />}>
                   <p className="navbarWriting">Login</p>
                 </NavDropdown.Item>
               </NavDropdown>
