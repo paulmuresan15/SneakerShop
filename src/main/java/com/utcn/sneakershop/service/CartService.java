@@ -1,12 +1,15 @@
 package com.utcn.sneakershop.service;
 
 import com.utcn.sneakershop.model.dto.CartProductDTO;
+import com.utcn.sneakershop.model.dto.OrderProductDTO;
+import com.utcn.sneakershop.model.dto.ProductDTO;
 import com.utcn.sneakershop.model.entity.*;
 import com.utcn.sneakershop.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.mail.MessagingException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -20,10 +23,11 @@ public class CartService {
     private final CartProductsRepository cartProductsRepository;
     private final StockRepository stockRepository;
     private final MailSenderService mailSenderService;
+    private final StockService stockService;
 
     @Autowired
     public CartService(CartRepository cartRepository, UserRepository userRepository, ProductRepository productRepository,
-                       CartProductsRepository cartProductsRepository, StockRepository stockRepository, MailSenderService mailSenderService) {
+                       CartProductsRepository cartProductsRepository, StockRepository stockRepository, MailSenderService mailSenderService, StockService stockService) {
         this.cartRepository = cartRepository;
         this.userRepository = userRepository;
         this.productRepository = productRepository;
@@ -31,6 +35,7 @@ public class CartService {
         this.stockRepository = stockRepository;
 
         this.mailSenderService = mailSenderService;
+        this.stockService = stockService;
     }
 
 
@@ -101,22 +106,30 @@ public class CartService {
 
 
     @Transactional
-    public void orderProducts(Long userId) {
+    public void orderProducts(Long userId) throws MessagingException {
         Optional<User> userOptional = userRepository.findById(userId);
         if(userOptional.isPresent()){
             List<CartProductDTO> cartProductsByUserId = getCartProductsByUserId(userId);
             Cart cartForUser = getCartForUser(userId);
             cartProductsByUserId.stream().forEach(cartProductDTO -> {
-                Stock stock = stockRepository.findStockByProductIdAndSize(cartProductDTO.getProductId(), cartProductDTO.getSize());
-                stock.setQuantity(stock.getQuantity()-cartProductDTO.getQuantity());
-                stockRepository.save(stock);
+                stockService.removeStock(cartProductDTO.getProductId(), cartProductDTO.getSize(), cartProductDTO.getQuantity());
             });
             cartForUser.setOrdered(true);
-            sendOrderConfirmationEmailToUser(userOptional.get(),cartProductsByUserId);
+            List<OrderProductDTO> orderProductDTOS = new ArrayList<>();
+            cartProductsByUserId.stream().forEach(cartProductDTO -> {
+                OrderProductDTO orderProductDTO = new OrderProductDTO();
+                ProductDTO productDTOById = productRepository.getProductDTOById(cartProductDTO.getProductId());
+                orderProductDTO.setProductName(productDTOById.getName());
+                orderProductDTO.setSize(cartProductDTO.getSize());
+                orderProductDTO.setQuantity(cartProductDTO.getQuantity());
+                orderProductDTO.setProductPhoto(productDTOById.getPhotoUrl());
+                orderProductDTOS.add(orderProductDTO);
+            });
+            sendOrderConfirmationEmailToUser(userOptional.get(),orderProductDTOS);
         }
     }
 
-    private void sendOrderConfirmationEmailToUser(User user, List<CartProductDTO> cartProductsByUserId) {
-       mailSenderService.sendOrderConfirmationEmail(user,cartProductsByUserId);
+    private void sendOrderConfirmationEmailToUser(User user, List<OrderProductDTO> orderProductDTOS) throws MessagingException {
+       mailSenderService.sendOrderConfirmationEmail(user,orderProductDTOS);
     }
 }

@@ -10,6 +10,7 @@ import javax.persistence.*;
 @Table(name="products")
 @Data
 @NoArgsConstructor
+@AllArgsConstructor
 public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,6 +24,8 @@ public class Product {
     @JoinColumn(name = "brand_id")
     private Brand brand;
 
+    @Column(name = "photo_url")
+    private String photoUrl;
     @Column(name = "name")
     private String name;
 

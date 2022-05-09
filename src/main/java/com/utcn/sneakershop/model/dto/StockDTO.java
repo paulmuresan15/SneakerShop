@@ -6,6 +6,8 @@ import lombok.Data;
 @Data
 @AllArgsConstructor
 public class StockDTO {
+
+    private Long productId;
     private String size;
     private Double price;
     private Integer quantity;

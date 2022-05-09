@@ -27,4 +27,11 @@ public class Stock {
 
     @Column(name = "is_on_sale")
     private boolean isOnSale;
+
+    public Stock(Product product, String size, Integer quantity, Double price) {
+        this.product = product;
+        this.size = size;
+        this.quantity = quantity;
+        this.price = price;
+    }
 }
