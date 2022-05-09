@@ -30,9 +30,10 @@ public class Product {
     private String name;
 
 
-    public Product(Category category, Brand brand, String name) {
+    public Product(Category category, Brand brand, String name,String photoUrl) {
         this.category = category;
         this.brand = brand;
         this.name = name;
+        this.photoUrl=photoUrl;
     }
 }

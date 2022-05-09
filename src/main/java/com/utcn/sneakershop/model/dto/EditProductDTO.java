@@ -13,6 +13,6 @@ public class EditProductDTO {
     private String name;
     private String category;
     private String brand;
-    private MultipartFile encodedAvatar;
+    private MultipartFile encodedPhoto;
 
 }

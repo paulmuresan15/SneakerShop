@@ -10,6 +10,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.mail.MessagingException;
+import java.io.UnsupportedEncodingException;
+import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -41,16 +43,18 @@ public class CartService {
 
     @Transactional
     public void addProductToCart(CartProductDTO cartProductDTO,Long userId){
-        Stock stock = stockRepository.findStockByProductIdAndSize(cartProductDTO.getProductId(), cartProductDTO.getSize());
-        if(stock.getQuantity()>=cartProductDTO.getQuantity()) {
-            Optional<User> userOptional = userRepository.findById(userId);
-            if (userOptional.isPresent()) {
-                Cart cartForUser = getCartForUser(userId);
-                Optional<Product> productOptional = productRepository.findById(cartProductDTO.getProductId());
-                if (productOptional.isPresent()) {
-                    CartProduct cartProduct = new CartProduct(productOptional.get(), cartForUser,
-                            cartProductDTO.getQuantity(), cartProductDTO.getSize());
-                    cartProductsRepository.save(cartProduct);
+        Optional<Stock> stockOptional = stockRepository.findStockByProductIdAndSize(cartProductDTO.getProductId(), cartProductDTO.getSize());
+        if(stockOptional.isPresent()) {
+            if (stockOptional.get().getQuantity() >= cartProductDTO.getQuantity()) {
+                Optional<User> userOptional = userRepository.findById(userId);
+                if (userOptional.isPresent()) {
+                    Cart cartForUser = getCartForUser(userId);
+                    Optional<Product> productOptional = productRepository.findById(cartProductDTO.getProductId());
+                    if (productOptional.isPresent()) {
+                        CartProduct cartProduct = new CartProduct(productOptional.get(), cartForUser,
+                                cartProductDTO.getQuantity(), cartProductDTO.getSize());
+                        cartProductsRepository.save(cartProduct);
+                    }
                 }
             }
         }
@@ -106,13 +110,13 @@ public class CartService {
 
 
     @Transactional
-    public void orderProducts(Long userId) throws MessagingException {
+    public void orderProducts(Long userId) throws MessagingException, MalformedURLException, UnsupportedEncodingException {
         Optional<User> userOptional = userRepository.findById(userId);
         if(userOptional.isPresent()){
             List<CartProductDTO> cartProductsByUserId = getCartProductsByUserId(userId);
             Cart cartForUser = getCartForUser(userId);
             cartProductsByUserId.stream().forEach(cartProductDTO -> {
-                stockService.removeStock(cartProductDTO.getProductId(), cartProductDTO.getSize(), cartProductDTO.getQuantity());
+                stockService.alterStock(cartProductDTO.getProductId(), cartProductDTO.getSize(), -cartProductDTO.getQuantity());
             });
             cartForUser.setOrdered(true);
             List<OrderProductDTO> orderProductDTOS = new ArrayList<>();
@@ -129,7 +133,7 @@ public class CartService {
         }
     }
 
-    private void sendOrderConfirmationEmailToUser(User user, List<OrderProductDTO> orderProductDTOS) throws MessagingException {
+    private void sendOrderConfirmationEmailToUser(User user, List<OrderProductDTO> orderProductDTOS) throws MessagingException, MalformedURLException, UnsupportedEncodingException {
        mailSenderService.sendOrderConfirmationEmail(user,orderProductDTOS);
     }
 }

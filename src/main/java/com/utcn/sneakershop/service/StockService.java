@@ -47,7 +47,7 @@ public class StockService {
         Optional<Stock> stockOptional = stockRepository.findStockByProductIdAndSize(productId, size);
         if(stockOptional.isPresent()) {
             Stock stock = stockOptional.get();
-            stock.setQuantity(stock.getQuantity() - quantity);
+            stock.setQuantity(stock.getQuantity() - Math.abs(quantity));
             stockRepository.save(stock);
         }
     }
@@ -59,5 +59,11 @@ public class StockService {
             stock.setQuantity(stock.getQuantity() + quantity);
             stockRepository.save(stock);
         }
+    }
+
+    @Transactional
+    public void deleteStock(StockDTO stockDTO) {
+        Optional<Stock> stockOptional = stockRepository.findStockByProductIdAndSize(stockDTO.getProductId(), stockDTO.getSize());
+        stockOptional.ifPresent(stockRepository::delete);
     }
 }

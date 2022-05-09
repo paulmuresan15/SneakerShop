@@ -2,6 +2,7 @@ package com.utcn.sneakershop.model.dto;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -15,6 +16,7 @@ public class ProductDTO {
     private String brand;
 
     private String photoUrl;
+    private MultipartFile encodedPhoto;
     private List<StockDTO> stockDTOS;
 
     public ProductDTO(Long id, String name, String category, String brand) {

@@ -23,7 +23,7 @@
     <p th:text="${'Your ordered products :'}"></p>
     <div th:each="product : ${products}">
         <p th:text="${product.productName}"></p>
-        <picture th:src="${product.productPhoto}"></picture>
+        <img th:src="|cid:${product.productPhoto}|">
         <p th:text="${product.quantity}"></p>
         <p th:text="${product.size}"></p>
     </div>

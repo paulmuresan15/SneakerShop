@@ -1,6 +1,5 @@
 package com.utcn.sneakershop.service;
 
-import com.utcn.sneakershop.model.dto.BrandDTO;
 import com.utcn.sneakershop.model.dto.EditProductDTO;
 import com.utcn.sneakershop.model.dto.ProductDTO;
 import com.utcn.sneakershop.model.dto.StockDTO;
@@ -65,24 +64,26 @@ public class ProductService {
         Optional<Category> categoryOptional = categoryRepository.getByName(productDTO.getCategory());
         Optional<Brand> brandOptional = brandRepository.getByName(productDTO.getBrand());
         if (categoryOptional.isPresent() && brandOptional.isPresent()) {
-            Product newProduct = new Product(categoryOptional.get(), brandOptional.get(), productDTO.getName());
+            Product newProduct = new Product(categoryOptional.get(), brandOptional.get(), productDTO.getName(),changePhotoForProduct(productDTO));
             productRepository.save(newProduct);
         } else {
             throw new Exception("Category or brand do not exist!");
         }
     }
 
-    public void editProduct(EditProductDTO productDTO){
+    public void editProduct(ProductDTO productDTO){
         productRepository.findById(productDTO.getId()).ifPresent(product -> {
             product.setName(productDTO.getName());
-            Optional<Brand> brandOptional = brandRepository.getByName(productDTO.getName());
+            Optional<Brand> brandOptional = brandRepository.getByName(productDTO.getBrand());
             brandOptional.ifPresent(product::setBrand);
             Optional<Category> categoryOptional = categoryRepository.getByName(productDTO.getCategory());
             categoryOptional.ifPresent(product::setCategory);
-            if (productDTO.getEncodedAvatar() != null) {
+            if (productDTO.getEncodedPhoto() != null) {
                 product.setPhotoUrl(changePhotoForProduct(productDTO));
             }
+            productRepository.save(product);
         });
+
     }
 
     @Transactional
@@ -94,9 +95,9 @@ public class ProductService {
     }
 
 
-    private String changePhotoForProduct(EditProductDTO productDTO) {
+    private String changePhotoForProduct(ProductDTO productDTO) {
         try {
-            return saveLogo(productDTO.getEncodedAvatar(), productDTO.getId());
+            return saveLogo(productDTO.getEncodedPhoto(), productDTO.getId());
         } catch (Exception e) {
             return "";
         }

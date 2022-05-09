@@ -1,12 +1,14 @@
 package com.utcn.sneakershop.model.entity;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
 @Entity
 @Table(name = "stock")
 @Data
+@NoArgsConstructor
 public class Stock {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
