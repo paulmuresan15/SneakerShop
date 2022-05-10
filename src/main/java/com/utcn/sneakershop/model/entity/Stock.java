@@ -1,12 +1,14 @@
 package com.utcn.sneakershop.model.entity;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
 @Entity
 @Table(name = "stock")
 @Data
+@NoArgsConstructor
 public class Stock {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,4 +29,11 @@ public class Stock {
 
     @Column(name = "is_on_sale")
     private boolean isOnSale;
+
+    public Stock(Product product, String size, Integer quantity, Double price) {
+        this.product = product;
+        this.size = size;
+        this.quantity = quantity;
+        this.price = price;
+    }
 }
