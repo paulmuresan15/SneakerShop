@@ -25,7 +25,7 @@ public class CartController {
     }
 
     @PostMapping("/add/{userId}")
-    public ResponseEntity<HttpStatus> addProductToCart(CartProductDTO cartProductDTO, @PathVariable("userId") Long userId){
+    public ResponseEntity<HttpStatus> addProductToCart(@RequestBody CartProductDTO cartProductDTO, @PathVariable("userId") Long userId){
 
             cartService.addProductToCart(cartProductDTO,userId);
             return new ResponseEntity<>(HttpStatus.OK);
@@ -43,7 +43,7 @@ public class CartController {
     }
 
     @GetMapping("/products/{id}")
-    public ResponseEntity<List<CartProductDTO>> getCartProductsByUserId(@Param("id") Long userId){
+    public ResponseEntity<List<CartProductDTO>> getCartProductsByUserId(@PathVariable("id") Long userId){
         try {
             List<CartProductDTO> cartProductsByUserId = cartService.getCartProductsByUserId(userId);
             return new ResponseEntity<>(cartProductsByUserId,HttpStatus.OK);

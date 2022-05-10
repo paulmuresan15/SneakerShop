@@ -45,7 +45,7 @@ public class BrandController {
 
     @PostMapping(value = "/add")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public ResponseEntity<HttpStatus> addNewBrand(BrandDTO brandDTO){
+    public ResponseEntity<HttpStatus> addNewBrand(@RequestBody BrandDTO brandDTO){
         try{
             brandService.addNewBrand(brandDTO);
             return ResponseEntity.ok(HttpStatus.OK);
@@ -67,7 +67,7 @@ public class BrandController {
 
     @PostMapping(value = "/edit",consumes = "multipart/form-data")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public ResponseEntity<HttpStatus> editBrand(BrandDTO brandDTO){
+    public ResponseEntity<HttpStatus> editBrand(@RequestBody BrandDTO brandDTO){
         try{
             brandService.editBrand(brandDTO);
             return ResponseEntity.ok(HttpStatus.OK);

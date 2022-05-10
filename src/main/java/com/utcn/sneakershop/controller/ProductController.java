@@ -11,6 +11,7 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.annotation.security.RolesAllowed;
@@ -39,7 +40,7 @@ public class ProductController {
 
     @PostMapping("/add")
     @RolesAllowed("ROLE_ADMIN")
-    public ResponseEntity<HttpStatus> addNewProduct(ProductDTO productDTO){
+    public ResponseEntity<HttpStatus> addNewProduct(@RequestBody ProductDTO productDTO){
         try{
             productService.addNewProduct(productDTO);
             return new ResponseEntity<>(HttpStatus.OK);
@@ -51,7 +52,7 @@ public class ProductController {
 
     @PostMapping("/edit")
     @RolesAllowed("ROLE_ADMIN")
-    public ResponseEntity<HttpStatus> editProduct(EditProductDTO productDTO){
+    public ResponseEntity<HttpStatus> editProduct(@RequestBody ProductDTO productDTO){
         try{
             productService.editProduct(productDTO);
             return new ResponseEntity<>(HttpStatus.OK);

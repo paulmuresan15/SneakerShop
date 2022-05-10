@@ -12,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
 @Controller
 @EnableMethodSecurity
@@ -37,7 +38,7 @@ public class UserController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<HttpStatus> registerUser(NewUserDTO newUserDTO) {
+    public ResponseEntity<HttpStatus> registerUser(@RequestBody NewUserDTO newUserDTO) {
         userService.registerNewUser(newUserDTO);
         return new ResponseEntity<>(HttpStatus.OK);
     }

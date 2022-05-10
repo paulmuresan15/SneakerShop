@@ -46,12 +46,11 @@ function Login(props) {
           password: password
         }).then((response) => {
           console.log("LOGGED IN");
-          // setUser(response.data);
           axios.get(`http://localhost:8081/getLoggedUser`).then((response) => {
-            console.log(response);
+            console.log(response.data);
           })
       })
-      console.log(user);
+          console.log(user);
       return(
         <div>
         </div>
