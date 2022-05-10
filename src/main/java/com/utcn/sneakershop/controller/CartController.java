@@ -9,6 +9,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import javax.mail.MessagingException;
+import java.io.UnsupportedEncodingException;
+import java.net.MalformedURLException;
 import java.util.List;
 
 @Controller
@@ -22,13 +25,11 @@ public class CartController {
     }
 
     @PostMapping("/add/{userId}")
-    public ResponseEntity<HttpStatus> addProductToCart(CartProductDTO cartProductDTO, @Param("userId") Long userId){
-        try{
+    public ResponseEntity<HttpStatus> addProductToCart(CartProductDTO cartProductDTO, @PathVariable("userId") Long userId){
+
             cartService.addProductToCart(cartProductDTO,userId);
             return new ResponseEntity<>(HttpStatus.OK);
-        } catch (Exception e){
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+
     }
 
     @DeleteMapping("/remove")
@@ -62,13 +63,10 @@ public class CartController {
     }
 
     @PostMapping("/order/{userId}")
-    public ResponseEntity<HttpStatus> orderProducts(@PathVariable("userId") Long userId){
-        try{
+    public ResponseEntity<HttpStatus> orderProducts(@PathVariable("userId") Long userId) throws MessagingException, MalformedURLException, UnsupportedEncodingException {
             cartService.orderProducts(userId);
-            return new ResponseEntity<>(HttpStatus.OK);
-        }catch (Exception e){
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
 

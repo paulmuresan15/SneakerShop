@@ -1,12 +1,14 @@
 package com.utcn.sneakershop.model.entity;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
 @Entity
 @Table(name = "cart_products")
 @Data
+@NoArgsConstructor
 public class CartProduct {
 
     @Id

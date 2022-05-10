@@ -1,5 +1,6 @@
 package com.utcn.sneakershop.controller;
 
+import com.utcn.sneakershop.model.dto.EditProductDTO;
 import com.utcn.sneakershop.model.dto.ProductDTO;
 import com.utcn.sneakershop.model.entity.Product;
 import com.utcn.sneakershop.service.ProductService;
@@ -41,6 +42,18 @@ public class ProductController {
     public ResponseEntity<HttpStatus> addNewProduct(ProductDTO productDTO){
         try{
             productService.addNewProduct(productDTO);
+            return new ResponseEntity<>(HttpStatus.OK);
+        }catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+
+    @PostMapping("/edit")
+    @RolesAllowed("ROLE_ADMIN")
+    public ResponseEntity<HttpStatus> editProduct(EditProductDTO productDTO){
+        try{
+            productService.editProduct(productDTO);
             return new ResponseEntity<>(HttpStatus.OK);
         }catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
