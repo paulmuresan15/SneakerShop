@@ -1,4 +1,4 @@
-import React,{useContext} from "react";
+import React, { useContext } from "react";
 import { Navbar, Nav, Container, NavDropdown } from "react-bootstrap";
 import "../styles/styles.css";
 import { AiOutlineShoppingCart } from "react-icons/ai";
@@ -14,6 +14,10 @@ import RegisterIcon from "./components/RegisterIcon";
 import { IconContext } from "react-icons";
 import logo from "../Pictures/logo.png";
 import { UserContext } from "./User/UserContext";
+import EditBrand from "../MainCategories/Admin/EditBrand";
+// import Logout from "./User/Logout";
+import axios from "axios";
+
 
 function Navigation() {
   const [counter, setCounter] = useState(0);
@@ -21,64 +25,126 @@ function Navigation() {
     setCounter(counter + 1);
   }
 
-  const { user } = useContext(UserContext);
-
-  return (
-    <Navbar
-      collapseOnSelect
-      fixed="top"
-      expand="xl"
-      bg="navbarColor"
-      variant="dark"
-    >
-      <Container fluid>
-        <Navbar.Toggle aria-controls="responsive-navbar-nav" />
-        <Navbar.Collapse id="responsive-navbar-nav">
-          <Nav className="navbar">
-            <Nav className="logo">
-              <img src={logo} alt="Logo"></img>
-            </Nav>
-            <Nav>
-              <Nav.Link href="/" element={<FirstPage />}>
-                {" "}
-                <p className="navbarWriting"> Home </p>
-              </Nav.Link>
-              <Nav.Link href="/Sport" element={<Sport />}>
-                {" "}
-                <p className="navbarWriting"> Sport </p>{" "}
-              </Nav.Link>
-              <Nav.Link href="/Elegant" element={<Elegant />}>
-                {" "}
-                <p className="navbarWriting"> Elegant </p>
-              </Nav.Link>
-              <Nav.Link href="/Casual" element={<Casual />}>
-                {" "}
-                <p className="navbarWriting"> Casual </p>{" "}
-              </Nav.Link>
-            </Nav>
-            <Nav>
-              <Nav.Link href="/ShoppingCart">
-                <IconContext.Provider value={{ className: "navbarIcon" }}>
+  const { user, setUser } = useContext(UserContext);
+  if (user === null) {
+    return (
+      <Navbar
+        collapseOnSelect
+        fixed="top"
+        expand="xl"
+        bg="navbarColor"
+        variant="dark"
+      >
+        <Container fluid>
+          <Navbar.Toggle aria-controls="responsive-navbar-nav" />
+          <Navbar.Collapse id="responsive-navbar-nav">
+            <Nav className="navbar">
+              <Nav className="logo">
+                <img src={logo} alt="Logo"></img>
+              </Nav>
+              <Nav>
+                <Nav.Link href="/" element={<FirstPage />}>
                   {" "}
-                  <AiOutlineShoppingCart />{" "}
-                </IconContext.Provider>
-              </Nav.Link>
-              {/* <DisplayNumberOfItems/> */}
-              {/* <ShowButton data={incrementCounter} /> */}
-              <NavDropdown align="end" title={<RegisterIcon />}>
-                <NavDropdown.Item href="/Register" element={<Register />}>
-                  <p className="navbarWriting">Register</p>
-                </NavDropdown.Item>
-                <NavDropdown.Item href="/Login" element={<Login />}>
-                  <p className="navbarWriting">Login</p>
-                </NavDropdown.Item>
-              </NavDropdown>
+                  <p className="navbarWriting"> Home </p>
+                </Nav.Link>
+                <Nav.Link href="/Sport" element={<Sport />}>
+                  {" "}
+                  <p className="navbarWriting"> Sport </p>{" "}
+                </Nav.Link>
+                <Nav.Link href="/Elegant" element={<Elegant />}>
+                  {" "}
+                  <p className="navbarWriting"> Elegant </p>
+                </Nav.Link>
+                <Nav.Link href="/Casual" element={<Casual />}>
+                  {" "}
+                  <p className="navbarWriting"> Casual </p>{" "}
+                </Nav.Link>
+              </Nav>
+              <Nav>
+                <Nav.Link href="/ShoppingCart">
+                  <IconContext.Provider value={{ className: "navbarIcon" }}>
+                    {" "}
+                    <AiOutlineShoppingCart />{" "}
+                  </IconContext.Provider>
+                </Nav.Link>
+                {/* <DisplayNumberOfItems/> */}
+                {/* <ShowButton data={incrementCounter} /> */}
+                <NavDropdown align="end" title={<RegisterIcon />}>
+                  <NavDropdown.Item href="/Register" element={<Register />}>
+                    <p className="navbarWriting">Register</p>
+                  </NavDropdown.Item>
+                  <NavDropdown.Item href="/Login" element={<Login />}>
+                    <p className="navbarWriting">Login</p>
+                  </NavDropdown.Item>
+                </NavDropdown>
+              </Nav>
             </Nav>
-          </Nav>
-        </Navbar.Collapse>
-      </Container>
-    </Navbar>
-  );
+          </Navbar.Collapse>
+        </Container>
+      </Navbar>
+    );
+  } else {
+    if (user.role_id !== 1) {
+      return (
+        <Navbar
+          collapseOnSelect
+          fixed="top"
+          expand="xl"
+          bg="navbarColor"
+          variant="dark"
+        >
+          <Container fluid>
+            <Navbar.Toggle aria-controls="responsive-navbar-nav" />
+            <Navbar.Collapse id="responsive-navbar-nav">
+              <Nav className="navbar">
+                <Nav className="logo">
+                  <img src={logo} alt="Logo"></img>
+                </Nav>
+                <Nav>
+                  <Nav.Link href="/" element={<FirstPage />}>
+                    {" "}
+                    <p className="navbarWriting"> Home </p>
+                  </Nav.Link>
+                  <Nav.Link href="/Sport" element={<Sport />}>
+                    {" "}
+                    <p className="navbarWriting"> Sport </p>{" "}
+                  </Nav.Link>
+                  <Nav.Link href="/Elegant" element={<Elegant />}>
+                    {" "}
+                    <p className="navbarWriting"> Elegant </p>
+                  </Nav.Link>
+                  <Nav.Link href="/Casual" element={<Casual />}>
+                    {" "}
+                    <p className="navbarWriting"> Casual </p>{" "}
+                  </Nav.Link>
+                </Nav>
+                <Nav>
+                  <p className="navbarWriting"> Hello {user.username}</p>
+                  <Nav.Link href="/ShoppingCart">
+                    <IconContext.Provider value={{ className: "navbarIcon" }}>
+                      {" "}
+                      <AiOutlineShoppingCart />{" "}
+                    </IconContext.Provider>
+                  </Nav.Link>
+                  {/* <DisplayNumberOfItems/> */}
+                  {/* <ShowButton data={incrementCounter} /> */}
+                  <NavDropdown align="end" title={<RegisterIcon />}>
+                    <NavDropdown.Item onClick={() => {
+                      axios.post(`http://localhost:8081/logout`).then((response) => {
+                        setUser(null);
+                    })}}>
+                      <p className="navbarWriting">Logout</p>
+                    </NavDropdown.Item>
+                  </NavDropdown>
+                </Nav>
+              </Nav>
+            </Navbar.Collapse>
+          </Container>
+        </Navbar>
+      );
+    } else {
+    }
+  }
 }
 
 export default Navigation;

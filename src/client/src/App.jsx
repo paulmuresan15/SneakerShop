@@ -13,7 +13,8 @@ import ProductPresentation from "./MainCategories/components/ProductPresentation
 import { UserContext } from "./HomePage/User/UserContext";
 
 function App(){
-  const [user,setUser]=useState(UserContext);
+  const [user,setUser]=useState(null);
+
 
   const value = useMemo(() => ({ user, setUser }), [user, setUser]);
   //de fiecare data cand se modifica user-ul se retrimite referinta value
