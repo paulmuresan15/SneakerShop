@@ -5,8 +5,9 @@ import { useState, useEffect,useContext } from "react";
 import { UserContext } from "../../HomePage/User/UserContext";
 import "./loginStyle.css"
 import { IoMdLogIn } from "react-icons/io";
+import {config} from "../../config/config";
 import NumberOfItems from '../../Requests/ShoppingCart/numberOfItems';
- 
+
 function Login(props) {
   const [username,setUsername]=useState("");
   const [password,setPassword]=useState("");
@@ -41,25 +42,26 @@ function Login(props) {
       </div>
       <button onClick={() => {
         // const aa=JSON.stringify({"username":username,"password":password});
-        axios.post("http://localhost:8081/login",{
-          username: username,
-          password: password
-        }).then((response) => {
+        axios.post("http://localhost:8081/login?"+"username="+username+"&password="+password).then((response) => {
           console.log("LOGGED IN");
-          axios.get(`http://localhost:8081/getLoggedUser`).then((response) => {
+          axios.get(`http://localhost:8081/getLoggedUser`,config).then((response) => {
             console.log(response.data);
           })
       })
-          console.log(user);
-      return(
+          return(
         <div>
         </div>
       )
       }}>
+
       <IoMdLogIn className='loginButton'>LOGIN</IoMdLogIn>
       </button>
+        <button className='loginButton' onClick={() => {
+            axios.get(`http://localhost:8081/getLoggedUser`,config).then((response) => {
+                console.log(response.data);
+            })}}></button>
     </div>
   );
 }
- 
+
 export default Login;
