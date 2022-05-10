@@ -13,11 +13,7 @@ import ProductPresentation from "./MainCategories/components/ProductPresentation
 import { UserContext } from "./HomePage/User/UserContext";
 
 function App(){
-  const [user,setUser]=useState({
-    "id":4,
-    "username":"andreea",
-    "password":"1234"
-  });
+  const [user,setUser]=useState(UserContext);
 
   const value = useMemo(() => ({ user, setUser }), [user, setUser]);
   //de fiecare data cand se modifica user-ul se retrimite referinta value
