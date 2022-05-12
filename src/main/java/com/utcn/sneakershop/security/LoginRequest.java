@@ -1,4 +1,4 @@
-package com.utcn.sneakershop.model.dto;
+package com.utcn.sneakershop.security;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -7,21 +7,13 @@ import lombok.NoArgsConstructor;
 import javax.validation.constraints.NotBlank;
 
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
-public class NewUserDTO {
+@AllArgsConstructor
+public class LoginRequest {
 
-    @NotBlank
-    private String email;
     @NotBlank
     private String username;
+
     @NotBlank
     private String password;
-    @NotBlank
-    private String firstName;
-    @NotBlank
-    private String lastName;
-
-
-
 }

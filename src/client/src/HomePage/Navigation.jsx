@@ -1,4 +1,4 @@
-import React,{useContext} from "react";
+import React, {useContext, useEffect} from "react";
 import { Navbar, Nav, Container, NavDropdown } from "react-bootstrap";
 import "../styles/styles.css";
 import { AiOutlineShoppingCart } from "react-icons/ai";
@@ -8,18 +8,24 @@ import Sport from "../MainCategories/Sport/Sport";
 import Casual from "../MainCategories/Casual/Casual";
 import Login from "./User/Login";
 import Register from "./User/Register";
+import ControlPanel from "../ControlPanel/ControlPanel";
 import DisplayNumberOfItems from "../ShoppingCart/controls/DisplayNumberOfItems";
 import { useState } from "react";
 import RegisterIcon from "./components/RegisterIcon";
 import { IconContext } from "react-icons";
 import logo from "../Pictures/logo.png";
 import { UserContext } from "./User/UserContext";
+import AuthService from "../services/AuthService";
 
 function Navigation() {
   const [counter, setCounter] = useState(0);
+  const [username,setUsername] = useState("");
   function incrementCounter() {
     setCounter(counter + 1);
   }
+  useEffect(() => {
+    setUsername(AuthService.getCurrentUser().username);
+  });
 
   const { user } = useContext(UserContext);
 
@@ -55,8 +61,13 @@ function Navigation() {
                 {" "}
                 <p className="navbarWriting"> Casual </p>{" "}
               </Nav.Link>
+              <Nav.Link href="/ControlPanel" element={<ControlPanel/>}>
+                {" "}
+                <p className="navbarWriting" >Control Panel</p>{" "}
+              </Nav.Link>
             </Nav>
             <Nav>
+              {username}
               <Nav.Link href="/ShoppingCart">
                 <IconContext.Provider value={{ className: "navbarIcon" }}>
                   {" "}

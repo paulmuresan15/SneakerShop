@@ -62,8 +62,8 @@ public class StockService {
     }
 
     @Transactional
-    public void deleteStock(StockDTO stockDTO) {
-        Optional<Stock> stockOptional = stockRepository.findStockByProductIdAndSize(stockDTO.getProductId(), stockDTO.getSize());
+    public void deleteStock(Long productId,String size) {
+        Optional<Stock> stockOptional = stockRepository.findStockByProductIdAndSize(productId, size);
         stockOptional.ifPresent(stockRepository::delete);
     }
 }

@@ -4,6 +4,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.validation.constraints.NotBlank;
 import java.util.List;
 
 @NoArgsConstructor
@@ -11,8 +12,11 @@ import java.util.List;
 public class ProductDTO {
 
     private Long id;
+    @NotBlank
     private String name;
+    @NotBlank
     private String category;
+    @NotBlank
     private String brand;
 
     private String photoUrl;

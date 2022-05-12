@@ -9,6 +9,7 @@ import Casual from "./MainCategories/Casual/Casual";
 import FirstPage from "./HomePage/FirstPage";
 import Register from "./HomePage/User/Register";
 import Login from "./HomePage/User/Login";
+import ControlPanel from "./ControlPanel/ControlPanel";
 import ProductPresentation from "./MainCategories/components/ProductPresentation";
 import { UserContext } from "./HomePage/User/UserContext";
 
@@ -28,6 +29,7 @@ function App(){
           <Route path="/Casual" element={<Casual/>}></Route>
           <Route path="/Register" element={<Register/>}></Route>
           <Route path="/Login" element={<Login/>}></Route>
+          <Route path="/ControlPanel" element={<ControlPanel/>}></Route>
           </Routes>
       </UserContext.Provider>
     </Router>

@@ -1,21 +1,18 @@
-import React from 'react';
+import React, {useContext, useState} from 'react';
 import Navigation from '../Navigation';
-import axios from "axios";
-import { useState, useEffect,useContext } from "react";
-import { UserContext } from "../../HomePage/User/UserContext";
+import {UserContext} from "../../HomePage/User/UserContext";
 import "./loginStyle.css"
-import { IoMdLogIn } from "react-icons/io";
-import {config} from "../../config/config";
-import NumberOfItems from '../../Requests/ShoppingCart/numberOfItems';
+import {IoMdLogIn} from "react-icons/io";
+import authService from "../../services/AuthService";
 
 function Login(props) {
-  const [username,setUsername]=useState("");
+  const [email,setEmail]=useState("");
   const [password,setPassword]=useState("");
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
   const { user, setUser } = useContext(UserContext);
-  const handleUsernameInput = event => {
-    setUsername(event.target.value);
+  const handleEmailInput = event => {
+    setEmail(event.target.value);
   };
 
   const handlePasswordInput = event => {
@@ -32,34 +29,21 @@ function Login(props) {
       <p className='loginWriting'>Login</p>
       <div>
       <div>
-        <p className='loginWriting'>Username</p>
-        <input onChange={handleUsernameInput} placeholder="Enter username" className='inputContainer' />
+        <p className='loginWriting'>Email</p>
+        <input onChange={handleEmailInput} placeholder="Enter email" className='inputContainer' />
       </div>
       <div style={{ marginTop: 10 }}>
         <p className='loginWriting'>Password</p>
         <input onChange={handlePasswordInput} placeholder="Enter password" className='inputContainer'/>
       </div>
       </div>
-      <button onClick={() => {
-        // const aa=JSON.stringify({"username":username,"password":password});
-        axios.post("http://localhost:8081/login?"+"username="+username+"&password="+password).then((response) => {
-          console.log("LOGGED IN");
-          axios.get(`http://localhost:8081/getLoggedUser`,config).then((response) => {
-            console.log(response.data);
-          })
-      })
-          return(
-        <div>
-        </div>
-      )
-      }}>
+          <button onClick={() => authService.login(email,password)}>
 
       <IoMdLogIn className='loginButton'>LOGIN</IoMdLogIn>
       </button>
         <button className='loginButton' onClick={() => {
-            axios.get(`http://localhost:8081/getLoggedUser`,config).then((response) => {
-                console.log(response.data);
-            })}}></button>
+          console.log(authService.getCurrentUser().data);
+        }}></button>
     </div>
   );
 }
