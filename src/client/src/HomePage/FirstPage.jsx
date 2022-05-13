@@ -5,19 +5,10 @@ import Slideshow from "./Slideshow.jsx";
 import "../styles/styles.css";
 import FooterPage from "../HomePage/FooterPage";
 
-const FirstPage = () => {
-  return (
-    <div>
-      <div className="mainContainer">
-        <div className="upContainer">
-          <div className="navbar">
-            <Navigation />
-          </div>
-        </div>
-      </div>
-      <Slideshow />
-      <FooterPage />
-    </div>
-  );
-};
+function FirstPage() {
+
+    return(
+        <Navigation/>
+    )
+}
 export default FirstPage;

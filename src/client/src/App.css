@@ -1,48 +1,48 @@
-/* 
-.container {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: flex-start;
-}
+/*!* */
+/*.container {*/
+/*  display: flex;*/
+/*  flex-direction: column;*/
+/*  justify-content: center;*/
+/*  align-items: flex-start;*/
+/*}*/
 
-.item {
-  order: 5; /* default is 0 */
-
-
-/*App.parent {*/
+/*.item {*/
+/*  order: 5; !* default is 0 *!*/
 
 
-/*   display: flex;*/
+/*!*App.parent {*!*/
 
 
-/*   height: 300px; !* Or whatever *!*/
+/*!*   display: flex;*!*/
 
 
-/* }*/
+/*!*   height: 300px; !* Or whatever *!*!*/
 
 
-/* */
+/*!* }*!*/
 
 
-/* Navigation.child {*/
+/*!* *!*/
 
 
-/*   width: 100px;  !* Or whatever *!*/
+/*!* Navigation.child {*!*/
 
 
-/*   height: 100px; !* Or whatever *!*/
+/*!*   width: 100px;  !* Or whatever *!*!*/
 
 
-/*   margin: auto;  !* Magic! *!*/
+/*!*   height: 100px; !* Or whatever *!*!*/
 
 
-/* }*/
+/*!*   margin: auto;  !* Magic! *!*!*/
 
 
-/* .Navigation { flex:2 0px;}*/
+/*!* }*!*/
 
-.App {
-    font-family: -apple-system, BlinkMacSystemFont, avenir next, avenir, segoe ui, helvetica neue, helvetica, Ubuntu, roboto, noto, arial, sans-serif;
-    text-align: center;
-}
+
+/*!* .Navigation { flex:2 0px;}*!*/
+
+/*.App {*/
+/*    font-family: -apple-system, BlinkMacSystemFont, avenir next, avenir, segoe ui, helvetica neue, helvetica, Ubuntu, roboto, noto, arial, sans-serif;*/
+/*    text-align: center;*/
+/*}*/
