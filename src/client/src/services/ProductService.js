@@ -52,6 +52,14 @@ class ProductService{
             return response.data;
         });
     }
+
+    getPhotoProduct(path){
+        return axios.get(API_URL + "photo", {params : {
+              path : path
+            }}).then(response => {
+            return response.data;
+        });
+    }
 }
 
 export default new ProductService();

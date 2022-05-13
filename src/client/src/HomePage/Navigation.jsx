@@ -25,67 +25,6 @@ function Navigation() {
         }
     }, []);
 
-    // return (
-    //   <Navbar
-    //     collapseOnSelect
-    //     fixed="top"
-    //     expand="xl"
-    //     bg="navbarColor"
-    //     variant="dark"
-    //   >
-    //     <div className="clasapulii">
-    //       <Navbar.Toggle aria-controls="responsive-navbar-nav" />
-    //       <Navbar.Collapse id="responsive-navbar-nav">
-    //         <Nav className="navbar">
-    //           <Nav className="logo">
-    //             <img src={logo} alt="Logo"></img>
-    //           </Nav>
-    //           <Nav>
-    //             <div className="align-center">
-    //             <Nav.Link href="/" element={<FirstPage />}>
-    //               {" "}
-    //               <p className="navbarWriting"> Home </p>
-    //             </Nav.Link>
-    //             <Nav.Link href="/Sport" element={<Sport />}>
-    //               {" "}
-    //               <p className="navbarWriting"> Sport </p>{" "}
-    //             </Nav.Link>
-    //             <Nav.Link href="/Elegant" element={<Elegant />}>
-    //               {" "}
-    //               <p className="navbarWriting"> Elegant </p>
-    //             </Nav.Link>
-    //             <Nav.Link href="/Casual" element={<Casual />}>
-    //               {" "}
-    //               <p className="navbarWriting"> Casual </p>{" "}
-    //             </Nav.Link>
-    //             <Nav.Link href="/ControlPanel" element={<ControlPanel/>}>
-    //               {" "}
-    //               <p className="navbarWriting" >Control Panel</p>{" "}
-    //             </Nav.Link>
-    //             </div>
-    //             <Nav className="align-end">
-    //               {username}
-    //               <Nav.Link href="/ShoppingCart">
-    //                 <IconContext.Provider value={{ className: "navbarIcon" }}>
-    //                   {" "}
-    //                   <AiOutlineShoppingCart />{" "}
-    //                 </IconContext.Provider>
-    //               </Nav.Link>
-    //               <NavDropdown  title={<RegisterIcon />}>
-    //                 <NavDropdown.Item href="/Register" element={<Register />}>
-    //                   <p className="navbarWriting">Register</p>
-    //                 </NavDropdown.Item>
-    //                 <NavDropdown.Item href="/Login" element={<Login />}>
-    //                   <p className="navbarWriting">Login</p>
-    //                 </NavDropdown.Item>
-    //               </NavDropdown>
-    //             </Nav>
-    //           </Nav>
-    //         </Nav>
-    //       </Navbar.Collapse>
-    //     </div>
-    //   </Navbar>
-    // );
     return (
         <Navbar fixed="top" collapseOnSelect expand="lg" bg="dark" variant="dark" className="navbar">
             <Container >
@@ -122,7 +61,3 @@ function Navigation() {
 
 export default Navigation;
 
-//if I want my navbar to have another color, I use Navbar and in the bg option, I write a name, which will be implemented
-// in the css class with the name "bg-name"
-
-//NavDropDown for more options in the Navbar

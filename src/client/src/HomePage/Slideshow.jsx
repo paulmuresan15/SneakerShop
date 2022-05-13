@@ -35,18 +35,18 @@ const slideImages = [
 const Slideshow = () => {
     // @ts-ignore
     return (
-        // <div className="slide-container">
-        //   <Slide>
-        //    {slideImages.map((slideImage, index)=> (
-        //       <div className="each-slide" key={index}>
-        //         <div style={{'backgroundImage': `url(${slideImage.url})`}}>
-        //           <span>{slideImage.caption}</span>
-        //         </div>
-        //       </div>
-        //     ))}
-        //   </Slide>
-        // </div>
-        <Carousel wrapAround={true} adaptiveHeight={true} className="slideshow-container" >
+        <Carousel defaultControlsConfig={
+            {
+                nextButtonText : ' ' ,
+                prevButtonText : ' ',
+                nextButtonStyle : {
+                    display : 'none'
+                },
+                prevButtonStyle : {
+                    display : 'none'
+                }
+            }
+        } wrapAround={true} adaptiveHeight={true} autoplay={true} autoplayInterval={5000} className="slideshow-container" >
             {slideImages.map((slideImage, index) => (
                 <img  key={index} className="carousel" alt={index.toString()} src={slideImage.url}/>))}
         </Carousel>)

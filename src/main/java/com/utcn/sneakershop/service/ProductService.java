@@ -33,7 +33,7 @@ public class ProductService {
     @Value("${file.image.extension}")
     private String IMAGE_EXTENSION;
 
-    @Value("${file.storage.path.brands}")
+    @Value("${file.storage.path.products}")
     private String LOGO_STORAGE_PATH;
 
     @Value("${file.image.width.products}")

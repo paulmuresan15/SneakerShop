@@ -37,8 +37,10 @@ function FirstPage() {
                         </Row>
                     </Container>
                 </Container>
-                <Col className="mt-80">
-                    <div>Products on sale</div>
+            </Row>
+            <Container>
+                <div>Products on sale</div>
+                <Col>
                     <Row>
                         { productsOnSale.map((product,index) => {
                            return <ProductCard key={index} productId={product.id} productName={product.name}
@@ -48,11 +50,7 @@ function FirstPage() {
                         }
                     </Row>
                 </Col>
-                <Col className="mt-80">
-                    <div>Popular products</div>
-                </Col>
-            </Row>
-
+            </Container>
 
             <FooterPage/></>
     )
