@@ -1,5 +1,6 @@
 import axios from "axios";
 import authHeader from "./auth-header";
+
 const API_URL = "http://localhost:8081/products/";
 
 class ProductService{
@@ -7,6 +8,19 @@ class ProductService{
     getAllProducts() {
         return axios.get(API_URL).then(response => {
             return response.data;
+        });
+    }
+
+    getProductsOnSale(){
+        return axios.get(API_URL + "sale").then(response => {
+            console.log(response.data);
+            return response.data.map((item) => {
+                return {
+                    "id": item.id,
+                    "name": item.name,
+                    "photoUrl": item.photoUrl,
+                }
+            });
         });
     }
 

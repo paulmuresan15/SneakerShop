@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -65,5 +66,18 @@ public class StockService {
     public void deleteStock(Long productId,String size) {
         Optional<Stock> stockOptional = stockRepository.findStockByProductIdAndSize(productId, size);
         stockOptional.ifPresent(stockRepository::delete);
+    }
+
+    public Double getSmallestPriceForProduct(Long productId){
+        List<StockDTO> stockDetailsForProductById = stockRepository.getStockDetailsForProductById(productId);
+        Double smallestPrice= (double) 0;
+        if(!stockDetailsForProductById.isEmpty()) {
+            for (StockDTO stockDTO : stockDetailsForProductById) {
+                if (stockDTO.getPrice() > smallestPrice) {
+                    smallestPrice = stockDTO.getPrice();
+                }
+            }
+        }
+        return smallestPrice;
     }
 }

@@ -38,6 +38,15 @@ public class ProductController {
         }
     }
 
+    @GetMapping("/sale")
+    public ResponseEntity<List<ProductDTO>> getProductsOnSale(){
+        try{
+            return new ResponseEntity<>(productService.getProductsOnSale(),HttpStatus.OK);
+        }catch (Exception e){
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
     @PostMapping("/add")
     @RolesAllowed("ROLE_ADMIN")
     public ResponseEntity<HttpStatus> addNewProduct(@RequestBody ProductDTO productDTO){
@@ -50,9 +59,9 @@ public class ProductController {
     }
 
 
-    @PostMapping("/edit")
+    @PostMapping(value = "/edit",consumes = "multipart/form-data")
     @RolesAllowed("ROLE_ADMIN")
-    public ResponseEntity<HttpStatus> editProduct(@RequestBody ProductDTO productDTO){
+    public ResponseEntity<HttpStatus> editProduct(ProductDTO productDTO){
         try{
             productService.editProduct(productDTO);
             return new ResponseEntity<>(HttpStatus.OK);

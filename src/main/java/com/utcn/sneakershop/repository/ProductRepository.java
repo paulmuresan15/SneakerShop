@@ -15,7 +15,15 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
             "left join Category c on p.category.id=c.id " +
             "left join Stock s on p.id=s.product.id " +
             "where s.quantity>0")
-            List<ProductDTO>getAllAvailableProducts();
+    List<ProductDTO> getAllAvailableProducts();
+
+    @Query("select new com.utcn.sneakershop.model.dto.ProductDTO(p.id,p.name,p.category.name,p.brand.name,p.photoUrl)" +
+            "from Product p left join Brand b on p.brand.id=b.id " +
+            "left join Category c on p.category.id=c.id " +
+            "left join Stock s on p.id=s.product.id " +
+            "where s.quantity>0 and s.isOnSale=true " +
+            "group by p.id")
+    List<ProductDTO> getProductsOnSale();
 
     @Query("select new com.utcn.sneakershop.model.dto.ProductDTO(p.id,p.name,p.category.name,p.brand.name,p.photoUrl)" +
             "from Product p left join Brand b on p.brand.id=b.id " +

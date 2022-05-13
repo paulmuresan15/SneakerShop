@@ -21,6 +21,12 @@ class StockService{
             return response.data;
         });
     }
+
+    getSmallestPriceForProduct(productId){
+        return axios.get(API_URL + productId + "/price").then(response => {
+            return response.data;
+        })
+    }
 }
 
 export default new StockService();

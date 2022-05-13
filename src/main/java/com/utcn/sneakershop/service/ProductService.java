@@ -19,6 +19,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class ProductService {
@@ -92,6 +93,10 @@ public class ProductService {
         List<StockDTO> stockDetailsForProduct = stockRepository.getStockDetailsForProductById(id);
         product.setStockDTOS(stockDetailsForProduct);
         return product;
+    }
+
+    public List<ProductDTO> getProductsOnSale(){
+        return productRepository.getProductsOnSale().stream().limit(5).collect(Collectors.toList());
     }
 
 

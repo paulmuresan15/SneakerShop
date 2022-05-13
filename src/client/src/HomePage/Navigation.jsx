@@ -87,8 +87,8 @@ function Navigation() {
     //   </Navbar>
     // );
     return (
-        <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
-            <Container className="mx-2">
+        <Navbar fixed="top" collapseOnSelect expand="lg" bg="dark" variant="dark" className="navbar">
+            <Container >
                 <Navbar.Toggle aria-controls="responsive-navbar-nav"/>
                 <Navbar.Collapse id="responsive-navbar-nav">
                     <Nav className="logo">
