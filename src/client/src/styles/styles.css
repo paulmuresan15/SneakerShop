@@ -35,7 +35,8 @@
 
 
 .logo {
-    height: 50px;
+    height: 50px !important;
+    margin-bottom: 15px !important;
 }
 
 .align-center{
@@ -73,6 +74,32 @@
     margin: 5px;
 }
 
+.login-form{
+    width: 500px !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    margin-top:100px !important;
+}
+
+.table-container{
+    margin-top: 100px !important;
+}
+.category-container{
+}
+
+.control-panel-card-title{
+ width: fit-content;
+    margin: 40px auto auto;
+}
+
+.category-card{
+    margin-top: 100px !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    width: 500px !important;
+    height: 200px !important;
+}
+
 .mw-inh{
     max-width: inherit !important;
 }
@@ -89,6 +116,12 @@
     padding-right: 5px !important;
 
     width: 1200px !important;
+}
+
+.products-container{
+    margin-top: 20px !important;
+    margin-left: 150px !important;
+    margin-right: 150px !important;
 }
 
 .footer {
@@ -115,6 +148,21 @@ p.navbarWriting {
     flex-direction: column;
 }
 
+.title-large{
+    margin-top: 100px !important;
+    font-family: "Bookman Old Style";
+    margin-left: 200px;
+}
+
+.divider{
+    margin-top: 20px !important;
+    margin-left: 150px !important;
+    margin-right: 150px !important;
+}
+
+.title-div{
+    margin-top: 150px !important;
+}
 /*.navbarIcon {*/
 /*    color: darkblue;*/
 /*    font-size: 150px;*/

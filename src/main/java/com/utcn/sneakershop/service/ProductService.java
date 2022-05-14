@@ -72,6 +72,7 @@ public class ProductService {
         }
     }
 
+    @Transactional
     public void editProduct(ProductDTO productDTO){
         productRepository.findById(productDTO.getId()).ifPresent(product -> {
             product.setName(productDTO.getName());
@@ -86,6 +87,12 @@ public class ProductService {
         });
 
     }
+
+    public List<ProductDTO> getProductsByCategoryName(String categoryName){
+        return productRepository.getProductsByCategoryName(categoryName);
+    }
+
+
 
     @Transactional
     public ProductDTO getProductById(Long id){

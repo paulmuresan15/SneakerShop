@@ -10,7 +10,10 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class UserService {
@@ -45,5 +48,32 @@ public class UserService {
         }else{
             throw new Exception("User not found");
         }
+    }
+
+    public List<UserDTO> getAllUsers() {
+        return userRepository.findAll().stream().map(UserDTO::new).collect(Collectors.toList());
+    }
+
+    @Transactional
+    public void deleteUserById(Long id) {
+        Optional<User> userOptional = userRepository.findById(id);
+        userOptional.ifPresent(userRepository::delete);
+    }
+
+    @Transactional
+    public void editUser(UserDTO userDTO) {
+        Optional<User> userOptional = userRepository.findById(userDTO.getId());
+        userOptional.ifPresent(user -> {
+            if(!Objects.equals(user.getFirstName(), userDTO.getFirstName())){
+                user.setFirstName(userDTO.getFirstName());
+            }
+            if(!Objects.equals(user.getLastName(), userDTO.getLastName())){
+                user.setLastName(userDTO.getLastName());
+            }
+            if(!Objects.equals(user.getEmail(), userDTO.getEmail())){
+                user.setEmail(userDTO.getEmail());
+            }
+            userRepository.save(user);
+        });
     }
 }

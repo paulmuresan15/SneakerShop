@@ -53,12 +53,30 @@ class ProductService{
         });
     }
 
+    getAllSportProducts(){
+        return axios.get(API_URL + "sport").then(response => {
+            return response.data;
+        })
+    }
+
     getPhotoProduct(path){
         return axios.get(API_URL + "photo", {params : {
               path : path
             }}).then(response => {
             return response.data;
         });
+    }
+
+    getAllCasualProducts() {
+        return axios.get(API_URL + "casual").then(response => {
+            return response.data;
+        })
+    }
+
+    getAllElegantProducts() {
+        return axios.get(API_URL + "elegant").then(response => {
+            return response.data;
+        })
     }
 }
 

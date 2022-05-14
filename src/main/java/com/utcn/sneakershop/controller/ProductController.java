@@ -58,6 +58,36 @@ public class ProductController {
         }
     }
 
+    @GetMapping("/sport")
+    public ResponseEntity<List<ProductDTO>> getAllSportProducts(){
+        try{
+            List<ProductDTO> sportProducts = productService.getProductsByCategoryName("Sport");
+            return new ResponseEntity<>(sportProducts,HttpStatus.OK);
+        }catch (Exception e){
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/casual")
+    public ResponseEntity<List<ProductDTO>> getAllCasualProducts(){
+        try{
+            List<ProductDTO> sportProducts = productService.getProductsByCategoryName("Casual");
+            return new ResponseEntity<>(sportProducts,HttpStatus.OK);
+        }catch (Exception e){
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/elegant")
+    public ResponseEntity<List<ProductDTO>> getAllElegantProducts(){
+        try{
+            List<ProductDTO> sportProducts = productService.getProductsByCategoryName("Elegant");
+            return new ResponseEntity<>(sportProducts,HttpStatus.OK);
+        }catch (Exception e){
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
     @GetMapping("/sale")
     public ResponseEntity<List<ProductDTO>> getProductsOnSale() {
         try {

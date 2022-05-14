@@ -18,12 +18,13 @@ function FooterPage() {
     //   </MDBContainer>
     // </MDBFooter>
 
-        <Navbar  className="footer" expand="lg" fixed="bottom" bg="dark" variant="dark">
-          <Container>
-            <Navbar.Brand href="#">Navbar</Navbar.Brand>
+    <Navbar className="footer" expand="lg" fixed="bottom" bg="dark" variant="dark">
+      <Container>
+        <Nav className="me-auto">
+        </Nav>        
           </Container>
-        </Navbar>
-     );
+    </Navbar>
+  );
 
 }
 export default FooterPage;

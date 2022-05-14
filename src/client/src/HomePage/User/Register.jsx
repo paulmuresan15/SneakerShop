@@ -114,23 +114,26 @@ function Register() {
           />
         </div>
       </div>
-      <IoMdLogIn
-        className="loginButton"
-        onClick={() => {
-          axios.post(`http://localhost:8081/register`, {
-            email:email,
-            username:userName,
-            password:password,
-            firstName:firstName,
-            lastName:lastName
-          }).then((response) => {
-            console.log("Register OK");
-            setUser(response.data);
-          });
-        }}
-      >
-        LOGIN
-      </IoMdLogIn>
+      <button>
+        <IoMdLogIn
+            className="loginButton"
+            onClick={() => {
+              axios.post(`http://localhost:8081/register`, {
+                email:email,
+                username:userName,
+                password:password,
+                firstName:firstName,
+                lastName:lastName
+              }).then((response) => {
+                console.log("Register OK");
+                setUser(response.data);
+              });
+            }}
+        >
+          LOGIN
+        </IoMdLogIn>
+      </button>
+
     </div>
   );
 }

@@ -32,4 +32,11 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
             "where s.quantity>0")
     ProductDTO getProductDTOById(@Param("id") Long id);
 
+    @Query("select new com.utcn.sneakershop.model.dto.ProductDTO(p.id,p.name,p.category.name,p.brand.name,p.photoUrl)" +
+            "from Product p left join Brand b on p.brand.id=b.id " +
+            "left join Category c on p.category.id=c.id " +
+            "left join Stock s on p.id=s.product.id " +
+            "where s.quantity>0 and c.name=:category " +
+            "group by p.id")
+    List<ProductDTO> getProductsByCategoryName(@Param("category") String categoryName);
 }

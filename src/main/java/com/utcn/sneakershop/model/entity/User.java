@@ -30,9 +30,7 @@ public class User {
     @Column(name = "password")
     private String password;
 
-    @ManyToOne(
-            cascade = CascadeType.ALL
-    )
+    @OneToOne
     @JoinColumn(name = "role_id")
     private Role role;
 

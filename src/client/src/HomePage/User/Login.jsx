@@ -4,13 +4,16 @@ import {UserContext} from "../../HomePage/User/UserContext";
 import "./loginStyle.css"
 import {IoMdLogIn} from "react-icons/io";
 import authService from "../../services/AuthService";
+import { useNavigate } from 'react-router-dom';
+import {Container} from "@mui/material";
+import {Form} from "react-bootstrap";
+import {Button} from "react-native";
 
 function Login(props) {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const [error, setError] = useState(null);
-    const [loading, setLoading] = useState(false);
-    const {user, setUser} = useContext(UserContext);
+    const navigate = useNavigate();
+
     const handleEmailInput = event => {
         setEmail(event.target.value);
     };
@@ -26,20 +29,31 @@ function Login(props) {
             <div className='navbar'>
                 <Navigation/>
             </div>
-            <p className='loginWriting'>Login</p>
-            <div>
-                <div>
-                    <p className='loginWriting'>Email</p>
-                    <input onChange={handleEmailInput} placeholder="Enter email" className='inputContainer'/>
-                </div>
-                <div style={{marginTop: 10}}>
-                    <p className='loginWriting'>Password</p>
-                    <input onChange={handlePasswordInput} placeholder="Enter password" className='inputContainer'/>
-                </div>
-            </div>
-            <button onClick={() => authService.login(email, password)}>
-                <IoMdLogIn className='loginButton'>LOGIN</IoMdLogIn>
-            </button>
+            <Container>
+                <Form className="login-form">
+                    <Form.Group className="mb-3" controlId="formBasicEmail">
+                        <Form.Label>Email address</Form.Label>
+                        <Form.Control onChange={handleEmailInput} type="email" placeholder="Enter email" />
+                        <Form.Text className="text-muted">
+                            We'll never share your email with anyone else.
+                        </Form.Text>
+                    </Form.Group>
+
+                    <Form.Group className="mb-3" controlId="formBasicPassword">
+                        <Form.Label>Password</Form.Label>
+                        <Form.Control onChange={handlePasswordInput} type="password" placeholder="Password" />
+                    </Form.Group>
+                    <button  onClick={(e) => {
+                        e.preventDefault();
+                        authService.login(email, password).then(() => {
+                            navigate("/");
+                        })}
+                    }>
+                        Submit
+                    </button>
+                </Form>
+            </Container>
+
         </div>
     );
 }
