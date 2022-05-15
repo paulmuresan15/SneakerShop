@@ -25,7 +25,7 @@ public class CartController {
     }
 
     @PostMapping("/add/{userId}")
-    public ResponseEntity<HttpStatus> addProductToCart(CartProductDTO cartProductDTO, @PathVariable("userId") Long userId){
+    public ResponseEntity<HttpStatus> addProductToCart(@RequestBody CartProductDTO cartProductDTO, @PathVariable("userId") Long userId){
 
             cartService.addProductToCart(cartProductDTO,userId);
             return new ResponseEntity<>(HttpStatus.OK);
@@ -33,7 +33,7 @@ public class CartController {
     }
 
     @DeleteMapping("/remove")
-    public ResponseEntity<HttpStatus> removeProductFromCart(Long cartProductId){
+    public ResponseEntity<HttpStatus> removeProductFromCart(@RequestParam Long cartProductId){
         try{
             cartService.removeProductFromCart(cartProductId);
             return new ResponseEntity<>(HttpStatus.OK);
@@ -43,13 +43,11 @@ public class CartController {
     }
 
     @GetMapping("/products/{id}")
-    public ResponseEntity<List<CartProductDTO>> getCartProductsByUserId(@Param("id") Long userId){
-        try {
+    public ResponseEntity<List<CartProductDTO>> getCartProductsByUserId(@PathVariable("id") Long userId){
+
             List<CartProductDTO> cartProductsByUserId = cartService.getCartProductsByUserId(userId);
             return new ResponseEntity<>(cartProductsByUserId,HttpStatus.OK);
-        }catch (Exception e){
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+
     }
 
     @GetMapping("/size/{userId}")
@@ -61,6 +59,7 @@ public class CartController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
 
     @PostMapping("/order/{userId}")
     public ResponseEntity<HttpStatus> orderProducts(@PathVariable("userId") Long userId) throws MessagingException, MalformedURLException, UnsupportedEncodingException {

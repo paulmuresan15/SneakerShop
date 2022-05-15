@@ -27,8 +27,8 @@ public class Stock {
     @Column(name = "price")
     private Double price;
 
-    @Column(name = "is_on_sale")
-    private boolean isOnSale;
+    @Column(name = "is_featured")
+    private boolean isFeatured;
 
     public Stock(Product product, String size, Integer quantity, Double price) {
         this.product = product;

@@ -1,4 +1,4 @@
-import React,{useContext} from "react";
+import React, { useContext, useEffect } from "react";
 import { Navbar, Nav, Container, NavDropdown } from "react-bootstrap";
 import "../styles/styles.css";
 import { AiOutlineShoppingCart } from "react-icons/ai";
@@ -8,82 +8,89 @@ import Sport from "../MainCategories/Sport/Sport";
 import Casual from "../MainCategories/Casual/Casual";
 import Login from "./User/Login";
 import Register from "./User/Register";
-import DisplayNumberOfItems from "../ShoppingCart/controls/DisplayNumberOfItems";
+import ControlPanel from "../ControlPanel/ControlPanel";
 import { useState } from "react";
 import RegisterIcon from "./components/RegisterIcon";
 import { IconContext } from "react-icons";
 import logo from "../Pictures/logo.png";
 import { UserContext } from "./User/UserContext";
+import AuthService from "../services/AuthService";
+import cartService from "../services/CartService";
+import productService from "../services/ProductService";
 
 function Navigation() {
-  const [counter, setCounter] = useState(0);
-  function incrementCounter() {
-    setCounter(counter + 1);
-  }
+    const [user,setUser] = useState();
+    const [controlPanelHref, setControlPanelHref] = useState("");
+    const [controlPanelText, setControlPanelText] = useState("");
+    const [loginLogoutText, setLoginLogoutText] = useState("");
+    const [loginLogoutHref, setLoginLogoutHref] = useState("");
+    const [cartSize,setCartSize] = useState();
 
-  const { user } = useContext(UserContext);
 
-  return (
-    <Navbar
-      collapseOnSelect
-      fixed="top"
-      expand="xl"
-      bg="navbarColor"
-      variant="dark"
-    >
-      <Container fluid>
-        <Navbar.Toggle aria-controls="responsive-navbar-nav" />
-        <Navbar.Collapse id="responsive-navbar-nav">
-          <Nav className="navbar">
-            <Nav className="logo">
-              <img src={logo} alt="Logo"></img>
-            </Nav>
-            <Nav>
-              <Nav.Link href="/" element={<FirstPage />}>
-                {" "}
-                <p className="navbarWriting"> Home </p>
-              </Nav.Link>
-              <Nav.Link href="/Sport" element={<Sport />}>
-                {" "}
-                <p className="navbarWriting"> Sport </p>{" "}
-              </Nav.Link>
-              <Nav.Link href="/Elegant" element={<Elegant />}>
-                {" "}
-                <p className="navbarWriting"> Elegant </p>
-              </Nav.Link>
-              <Nav.Link href="/Casual" element={<Casual />}>
-                {" "}
-                <p className="navbarWriting"> Casual </p>{" "}
-              </Nav.Link>
-            </Nav>
-            <Nav>
-              <Nav.Link href="/ShoppingCart">
-                <IconContext.Provider value={{ className: "navbarIcon" }}>
-                  {" "}
-                  <AiOutlineShoppingCart />{" "}
-                </IconContext.Provider>
-              </Nav.Link>
-              {/* <DisplayNumberOfItems/> */}
-              {/* <ShowButton data={incrementCounter} /> */}
-              <NavDropdown align="end" title={<RegisterIcon />}>
-                <NavDropdown.Item href="/Register" element={<Register />}>
-                  <p className="navbarWriting">Register</p>
-                </NavDropdown.Item>
-                <NavDropdown.Item href="/Login" element={<Login />}>
-                  <p className="navbarWriting">Login</p>
-                </NavDropdown.Item>
-              </NavDropdown>
-            </Nav>
-          </Nav>
-        </Navbar.Collapse>
-      </Container>
-    </Navbar>
-  );
+    useEffect(() => {
+        if (AuthService.getCurrentUser()) {
+            setUser(AuthService.getCurrentUser());
+            setLoginLogoutText("Logout");
+            setLoginLogoutHref("/Logout");
+        } else {
+            setLoginLogoutText("Login");
+            setLoginLogoutHref("/Login");
+        }
+        if(user) {
+            cartService.getCartSize(user.id).then(response => {
+                setCartSize(response);
+            })
+        }
+    }, []);
+
+    useEffect(() => {
+        if(user) {
+            if(user.roles.includes("ROLE_ADMIN")) {
+                setControlPanelHref("/ControlPanel");
+                setControlPanelText("Control Panel");
+            }
+            cartService.getCartSize(user.id).then(response => {
+                setCartSize(response);
+            })
+        }
+    },[user]);
+
+    return (
+        <Navbar  fixed="top" collapseOnSelect expand="lg" bg="dark" variant="dark" className="navbar">
+            <Container >
+                <Navbar.Toggle aria-controls="responsive-navbar-nav" />
+                <Navbar.Collapse id="responsive-navbar-nav">
+                    <Nav className="logo">
+                        <Nav.Link href="/">
+                            <img className="logo" src={logo} alt="Logo"></img>
+                        </Nav.Link>
+                    </Nav>
+                    <Nav className="me-auto">
+                        <Nav.Link href="/Sport" element={<Sport />}>Sport</Nav.Link>
+                        <Nav.Link href="/Elegant" element={<Elegant />}>Elegant</Nav.Link>
+                        <Nav.Link href="/Casual" element={<Casual />}>Casual</Nav.Link>
+                        <Nav.Link href={controlPanelHref} element={<Casual />}>{controlPanelText}</Nav.Link>
+                    </Nav>
+                    <Nav className="ml-2">
+                        <p className="cart-text">{cartSize}</p>
+                        <Nav.Link href="/ShoppingCart">
+                            <IconContext.Provider value={{ className: "navbarIcon" }}>
+                                <AiOutlineShoppingCart />
+                            </IconContext.Provider>
+                        </Nav.Link>
+                        <NavDropdown title={<RegisterIcon />}>
+                            <NavDropdown.Item href="/Register" element={<Register />}>
+                                <p className="navbarWriting">Register</p>
+                            </NavDropdown.Item>
+                            <NavDropdown.Item href={loginLogoutHref}>
+                                <p className="navbarWriting">{loginLogoutText}</p>
+                            </NavDropdown.Item>
+                        </NavDropdown>
+                    </Nav>
+                </Navbar.Collapse>
+            </Container>
+        </Navbar>
+    )
 }
-
 export default Navigation;
 
-//if I want my navbar to have another color, I use Navbar and in the bg option, I write a name, which will be implemented
-// in the css class with the name "bg-name"
-
-//NavDropDown for more options in the Navbar

@@ -1,8 +1,6 @@
 package com.utcn.sneakershop.service;
 
-import com.utcn.sneakershop.model.dto.EditProductDTO;
 import com.utcn.sneakershop.model.dto.ProductDTO;
-import com.utcn.sneakershop.model.dto.StockDTO;
 import com.utcn.sneakershop.model.entity.Brand;
 import com.utcn.sneakershop.model.entity.Category;
 import com.utcn.sneakershop.model.entity.Product;
@@ -11,14 +9,21 @@ import com.utcn.sneakershop.repository.CategoryRepository;
 import com.utcn.sneakershop.repository.ProductRepository;
 import com.utcn.sneakershop.repository.StockRepository;
 import com.utcn.sneakershop.utils.PhotoUtils;
+import org.apache.tomcat.util.http.fileupload.ByteArrayOutputStream;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.imageio.ImageIO;
 import javax.transaction.Transactional;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import java.util.Base64;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class ProductService {
@@ -32,7 +37,7 @@ public class ProductService {
     @Value("${file.image.extension}")
     private String IMAGE_EXTENSION;
 
-    @Value("${file.storage.path.brands}")
+    @Value("${file.storage.path.products}")
     private String LOGO_STORAGE_PATH;
 
     @Value("${file.image.width.products}")
@@ -64,14 +69,18 @@ public class ProductService {
         Optional<Category> categoryOptional = categoryRepository.getByName(productDTO.getCategory());
         Optional<Brand> brandOptional = brandRepository.getByName(productDTO.getBrand());
         if (categoryOptional.isPresent() && brandOptional.isPresent()) {
-            Product newProduct = new Product(categoryOptional.get(), brandOptional.get(), productDTO.getName(),changePhotoForProduct(productDTO));
-            productRepository.save(newProduct);
+            Product newProduct = new Product(categoryOptional.get(), brandOptional.get(), productDTO.getName());
+            Product savedProduct = productRepository.save(newProduct);
+            productDTO.setId(savedProduct.getId());
+            savedProduct.setPhotoUrl(changePhotoForProduct(productDTO));
+            productRepository.save(savedProduct);
         } else {
             throw new Exception("Category or brand do not exist!");
         }
     }
 
-    public void editProduct(ProductDTO productDTO){
+    @Transactional
+    public void editProduct(ProductDTO productDTO) {
         productRepository.findById(productDTO.getId()).ifPresent(product -> {
             product.setName(productDTO.getName());
             Optional<Brand> brandOptional = brandRepository.getByName(productDTO.getBrand());
@@ -86,12 +95,35 @@ public class ProductService {
 
     }
 
+    public List<ProductDTO> getProductsByCategoryName(String categoryName) {
+        List<ProductDTO> productsByCategoryName = productRepository.getProductsByCategoryName(categoryName);
+        for (ProductDTO productDTO : productsByCategoryName) {
+            loadPhoto(productDTO);
+            productDTO.setStockDTOS(stockRepository.getStockDetailsForProductById(productDTO.getId()));
+        }
+        return productsByCategoryName;
+    }
+
+
     @Transactional
-    public ProductDTO getProductById(Long id){
-        ProductDTO product = productRepository.getProductDTOById(id);
-        List<StockDTO> stockDetailsForProduct = stockRepository.getStockDetailsForProductById(id);
-        product.setStockDTOS(stockDetailsForProduct);
-        return product;
+    public ProductDTO getProductById(Long id) {
+        Optional<Product> productOptional = productRepository.findById(id);
+        if(productOptional.isPresent()){
+            ProductDTO productDTO = new ProductDTO(productOptional.get());
+            productDTO.setStockDTOS(stockRepository.getStockDetailsForProductById(id));
+            loadPhoto(productDTO);
+            return productDTO;
+        }
+        return new ProductDTO();
+    }
+
+    public List<ProductDTO> getProductsOnSale() {
+        List<ProductDTO> productDTOS = productRepository.getFeaturedProducts().stream().limit(5).collect(Collectors.toList());
+        for (ProductDTO productDTO : productDTOS) {
+            loadPhoto(productDTO);
+            productDTO.setStockDTOS(stockRepository.getStockDetailsForProductById(productDTO.getId()));
+        }
+        return productDTOS;
     }
 
 
@@ -111,5 +143,38 @@ public class ProductService {
             return photoUtils.savePhoto(logo, filename, LOGO_STORAGE_PATH, IMAGE_EXTENSION, TARGET_WIDTH_PRODUCTS, TARGET_HEIGHT_PRODUCTS);
         }
         return "";
+    }
+
+    public List<ProductDTO> getAllProducts() {
+        List<ProductDTO> productDTOS = productRepository.findAll().stream().map(ProductDTO::new).collect(Collectors.toList());
+        productDTOS.stream().forEach(productDTO -> {
+            loadPhoto(productDTO);
+            productDTO.setStockDTOS(stockRepository.getStockDetailsForProductById(productDTO.getId()));
+        });
+        return productDTOS;
+    }
+
+    private void loadPhoto(ProductDTO productDTO) {
+        File file = new File(productDTO.getPhotoUrl());
+        BufferedImage read = null;
+        try {
+            read = ImageIO.read(file);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        try {
+            ImageIO.write(read, "png", outputStream);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        String encoded = Base64.getEncoder().encodeToString(outputStream.toByteArray());
+        productDTO.setPhotoUrl("data:image/png;base64," + encoded);
+    }
+
+    @Transactional
+    public void deleteProductById(Long id) {
+        Optional<Product> productOptional = productRepository.findById(id);
+        productOptional.ifPresent(productRepository::delete);
     }
 }

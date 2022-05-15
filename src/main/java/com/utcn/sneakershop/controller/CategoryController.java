@@ -57,7 +57,7 @@ public class CategoryController {
 
     @PostMapping("/add")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public ResponseEntity<HttpStatus> addNewCategory(CategoryDTO categoryDTO) {
+    public ResponseEntity<HttpStatus> addNewCategory(@RequestBody CategoryDTO categoryDTO) {
         try {
             categoryService.addNewCategory(categoryDTO);
             return ResponseEntity.ok(HttpStatus.OK);
@@ -68,7 +68,7 @@ public class CategoryController {
 
     @PostMapping("/edit")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public ResponseEntity<HttpStatus> editCategory(CategoryDTO categoryDTO){
+    public ResponseEntity<HttpStatus> editCategory(@RequestBody CategoryDTO categoryDTO){
         try{
             categoryService.editCategory(categoryDTO);
             return ResponseEntity.ok(HttpStatus.OK);

@@ -17,29 +17,14 @@ function FooterPage() {
     //     </MDBRow>
     //   </MDBContainer>
     // </MDBFooter>
-    <Navbar
-      collapseOnSelect
-      fixed="bottom"
-      expand="xl"
-      bg="navbarColor"
-      variant="dark"
-    >
-      <Container fluid>
-        <Navbar.Toggle aria-controls="responsive-navbar-nav" />
-        <Navbar.Collapse id="responsive-navbar-nav">
-          <Nav className="footer">
-            <Nav.Link exact href="/AboutUs" element={<AboutUs />}>
-              <p className="navbarWriting">About Us</p>
-            </Nav.Link>
-          </Nav>
-          <Nav className="footer">
-            <Nav.Link exact href="/ContactUs" element={<ContactUs />}>
-              <p className="navbarWriting">Contact Us</p>
-            </Nav.Link>
-          </Nav>
-        </Navbar.Collapse>
-      </Container>
+
+    <Navbar className="footer" expand="lg" fixed="bottom" bg="dark" variant="dark">
+      <Container>
+        <Nav className="me-auto">
+        </Nav>        
+          </Container>
     </Navbar>
   );
+
 }
 export default FooterPage;
