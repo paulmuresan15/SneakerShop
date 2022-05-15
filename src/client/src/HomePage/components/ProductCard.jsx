@@ -1,21 +1,16 @@
 import {Button, Row} from "react-bootstrap";
 import productService from "../../services/ProductService";
-import {useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import stockService from "../../services/StockService";
+import {Link} from "react-router-dom";
 function ProductCard(props){
-    const [photo,setPhoto] = useState("");
-    useEffect(() => {
-        console.log(props.productUrl);
-        productService.getPhotoProduct(props.productUrl).then(response => {
-            console.log(response);
-            setPhoto("data:image/png;base64," + response);
-        })
-    },[]);
+
 
     const [price, setPrice] = useState("");
     useEffect(() => {
         stockService.getSmallestPriceForProduct(props.productId).then(response => {
             setPrice(response);
+            console.log(props.stocks);
         })
     },[]);
     
@@ -23,7 +18,7 @@ function ProductCard(props){
     return (
         <div className="card">
           <div className="card-img">
-              <img className="product-img" src={photo} alt={props.productName}/>
+              <img className="product-img" src={props.photoUrl} alt={props.productName}/>
           </div>
             <div className="card-body">
                 <Row>
@@ -32,7 +27,15 @@ function ProductCard(props){
                 <Row>
                     {price + '$'}
                 </Row>
-                <Button variant="primary">View details</Button>
+                <Link
+                    to="/ProductDetails"
+                    state={{
+                        productId: props.productId,
+                        name : props.productName,
+                        stocks : props.stocks,
+                        photoUrl : props.photoUrl
+                    }}
+                >View Details</Link>
             </div>
         </div>
     );

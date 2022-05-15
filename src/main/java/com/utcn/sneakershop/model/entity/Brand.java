@@ -11,7 +11,6 @@ import javax.persistence.*;
 @Table(name = "brands")
 @Data
 @NoArgsConstructor
-@AllArgsConstructor
 public class Brand {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,17 +19,9 @@ public class Brand {
     @Column(name = "name")
     private String name;
 
-    @Column(name = "logoUrl")
-    private String logoUrl;
-
-    @Lob
-    @Column(name = "description")
-    private String description;
-
     public Brand(BrandDTO brandDTO){
         this.name= brandDTO.getName();
-        this.logoUrl= brandDTO.getLogoUrl();
-        this.description= brandDTO.getDescription();
+
     }
 
     public Brand(Long id, String name) {

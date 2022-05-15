@@ -15,10 +15,9 @@ class BrandService {
         });
     }
 
-    addNewBrand(name,description){
+    addNewBrand(name){
         return axios.post(API_URL+"add",{
             name:name,
-            description:description
         },{headers : authHeader()}).then(response =>{
             return response.data;
         });
@@ -30,12 +29,10 @@ class BrandService {
         });
     }
 
-    editBrand(id, name,description,encodedAvatar) {
+    editBrand(id, name) {
         return axios.post(API_URL + "edit", {
-            id: id,
-            name: name,
-            description:description,
-            encodedAvatar:encodedAvatar
+            id:id,
+            name: name
         },{headers : authHeader()}).then(response => {
             return response.data;
         });

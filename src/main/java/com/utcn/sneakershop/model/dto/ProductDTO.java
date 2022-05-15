@@ -1,5 +1,6 @@
 package com.utcn.sneakershop.model.dto;
 
+import com.utcn.sneakershop.model.entity.Product;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.web.multipart.MultipartFile;
@@ -37,5 +38,13 @@ public class ProductDTO {
         this.category = category;
         this.brand = brand;
         this.photoUrl = photoUrl;
+    }
+
+    public ProductDTO(Product product) {
+        this.id = product.getId();
+        this.name = product.getName();
+        this.category = product.getCategory().getName();
+        this.brand = product.getBrand().getName();
+        this.photoUrl = product.getPhotoUrl();
     }
 }

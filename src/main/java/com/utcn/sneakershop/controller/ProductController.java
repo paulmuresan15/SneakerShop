@@ -20,12 +20,15 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
 import javax.annotation.security.RolesAllowed;
 import javax.imageio.ImageIO;
+import javax.mail.Multipart;
 import javax.servlet.Servlet;
 import javax.servlet.ServletContext;
+import javax.validation.Valid;
 import java.awt.image.BufferedImage;
 import java.awt.image.ImageObserver;
 import java.io.*;
@@ -50,6 +53,15 @@ public class ProductController {
     }
 
     @GetMapping("/")
+    public ResponseEntity<List<ProductDTO>> getAllProducts() {
+        try {
+            return new ResponseEntity<>(productService.getAllProducts(), HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/available")
     public ResponseEntity<List<ProductDTO>> getAllAvailableProducts() {
         try {
             return new ResponseEntity<>(productService.getAllAvailableProducts(), HttpStatus.OK);
@@ -90,16 +102,14 @@ public class ProductController {
 
     @GetMapping("/sale")
     public ResponseEntity<List<ProductDTO>> getProductsOnSale() {
-        try {
+
             return new ResponseEntity<>(productService.getProductsOnSale(), HttpStatus.OK);
-        } catch (Exception e) {
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+
     }
 
-    @PostMapping("/add")
+    @PostMapping( value = "/add",consumes = "multipart/form-data")
     @RolesAllowed("ROLE_ADMIN")
-    public ResponseEntity<HttpStatus> addNewProduct(@RequestBody ProductDTO productDTO) {
+    public ResponseEntity<HttpStatus> addNewProduct(@Valid ProductDTO productDTO) {
         try {
             productService.addNewProduct(productDTO);
             return new ResponseEntity<>(HttpStatus.OK);
@@ -109,13 +119,23 @@ public class ProductController {
     }
 
 
-    @PostMapping(value = "/edit", consumes = "multipart/form-data")
+    @PostMapping(value = "/edit", consumes ="multipart/form-data")
     @RolesAllowed("ROLE_ADMIN")
-    public ResponseEntity<HttpStatus> editProduct(ProductDTO productDTO) {
+    public ResponseEntity<HttpStatus> editProduct(@Valid ProductDTO productDTO) {
         try {
             productService.editProduct(productDTO);
             return new ResponseEntity<>(HttpStatus.OK);
         } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @DeleteMapping("/delete")
+    public ResponseEntity<HttpStatus> deleteProductById(@RequestParam Long id){
+        try{
+            productService.deleteProductById(id);
+            return new ResponseEntity<>(HttpStatus.OK);
+        }catch (Exception e){
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }

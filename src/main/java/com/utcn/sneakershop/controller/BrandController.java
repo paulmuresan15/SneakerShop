@@ -12,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.security.RolesAllowed;
+import javax.validation.Valid;
 import java.util.List;
 
 @Controller
@@ -45,7 +46,7 @@ public class BrandController {
 
     @PostMapping(value = "/add")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public ResponseEntity<HttpStatus> addNewBrand(@RequestBody BrandDTO brandDTO){
+    public ResponseEntity<HttpStatus> addNewBrand(@RequestBody @Valid BrandDTO brandDTO){
         try{
             brandService.addNewBrand(brandDTO);
             return ResponseEntity.ok(HttpStatus.OK);
@@ -65,9 +66,9 @@ public class BrandController {
        }
     }
 
-    @PostMapping(value = "/edit",consumes = "multipart/form-data")
+    @PostMapping( "/edit")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public ResponseEntity<HttpStatus> editBrand(@RequestBody BrandDTO brandDTO){
+    public ResponseEntity<HttpStatus> editBrand(@RequestBody @Valid BrandDTO brandDTO){
         try{
             brandService.editBrand(brandDTO);
             return ResponseEntity.ok(HttpStatus.OK);

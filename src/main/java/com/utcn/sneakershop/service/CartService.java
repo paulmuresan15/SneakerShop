@@ -27,9 +27,11 @@ public class CartService {
     private final MailSenderService mailSenderService;
     private final StockService stockService;
 
+    private final ProductService productService;
+
     @Autowired
     public CartService(CartRepository cartRepository, UserRepository userRepository, ProductRepository productRepository,
-                       CartProductsRepository cartProductsRepository, StockRepository stockRepository, MailSenderService mailSenderService, StockService stockService) {
+                       CartProductsRepository cartProductsRepository, StockRepository stockRepository, MailSenderService mailSenderService, StockService stockService, ProductService productService) {
         this.cartRepository = cartRepository;
         this.userRepository = userRepository;
         this.productRepository = productRepository;
@@ -38,6 +40,7 @@ public class CartService {
 
         this.mailSenderService = mailSenderService;
         this.stockService = stockService;
+        this.productService = productService;
     }
 
 
@@ -85,7 +88,13 @@ public class CartService {
         Cart cart = getCartForUser(userId);
         List<CartProduct> cartProductsByCartId = cartProductsRepository.getCartProductsByCartId(cart.getId());
         if(!cartProductsByCartId.isEmpty()) {
-            return cartProductsByCartId.stream().map(CartProductDTO::new).collect(Collectors.toList());
+            List<CartProductDTO> cartProductDTOS = cartProductsByCartId.stream().map(CartProductDTO::new).collect(Collectors.toList());
+            for(CartProductDTO cartProductDTO : cartProductDTOS){
+                ProductDTO productDTO = productService.getProductById(cartProductDTO.getProductId());
+                cartProductDTO.setPhotoUrl(productDTO.getPhotoUrl());
+                cartProductDTO.setName(productDTO.getName());
+            }
+            return  cartProductDTOS;
         } else {
             return new ArrayList<>();
         }
@@ -116,17 +125,21 @@ public class CartService {
             List<CartProductDTO> cartProductsByUserId = getCartProductsByUserId(userId);
             Cart cartForUser = getCartForUser(userId);
             cartProductsByUserId.stream().forEach(cartProductDTO -> {
-                stockService.alterStock(cartProductDTO.getProductId(), cartProductDTO.getSize(), -cartProductDTO.getQuantity());
+                try {
+                    stockService.alterStock(cartProductDTO.getProductId(), cartProductDTO.getSize(), -cartProductDTO.getQuantity());
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
             });
             cartForUser.setOrdered(true);
             List<OrderProductDTO> orderProductDTOS = new ArrayList<>();
             cartProductsByUserId.stream().forEach(cartProductDTO -> {
                 OrderProductDTO orderProductDTO = new OrderProductDTO();
-                ProductDTO productDTOById = productRepository.getProductDTOById(cartProductDTO.getProductId());
+                ProductDTO productDTOById = productService.getProductById(cartProductDTO.getProductId());
                 orderProductDTO.setProductName(productDTOById.getName());
                 orderProductDTO.setSize(cartProductDTO.getSize());
                 orderProductDTO.setQuantity(cartProductDTO.getQuantity());
-                orderProductDTO.setProductPhoto(productDTOById.getPhotoUrl());
+                orderProductDTO.setProductPhoto(productRepository.findById(cartProductDTO.getProductId()).get().getPhotoUrl());
                 orderProductDTOS.add(orderProductDTO);
             });
             sendOrderConfirmationEmailToUser(userOptional.get(),orderProductDTOS);

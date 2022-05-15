@@ -4,16 +4,29 @@ const API_URL = "http://localhost:8081/stock/";
 
 class StockService{
 
-    addStockToProduct(productId,size,price,quantity,isOnSale){
+    addStockToProduct(productId,size,price,quantity,isFeatured){
         return axios.post(API_URL + "add",{
             productId:productId,
             size:size,
             price:price,
             quantity:quantity,
-            isOnSale:isOnSale
+            isFeatured:isFeatured
         },{headers : authHeader()}).then(response => {
             return response.data;
         });
+    }
+
+    editStock(stockId,productId,size,price,quantity,isFeatured){
+        return axios.post(API_URL + "edit",{
+            stockId: stockId,
+            productId: productId,
+            size :size,
+            price : price,
+            quantity : quantity,
+            isFeatured: isFeatured
+        }).then(response => {
+            return response.data;
+        })
     }
 
     deleteStockOfProduct(productId,size){
@@ -24,6 +37,12 @@ class StockService{
 
     getSmallestPriceForProduct(productId){
         return axios.get(API_URL + productId + "/price").then(response => {
+            return response.data;
+        })
+    }
+
+    getAllStockEntries(){
+        return axios.get(API_URL).then(response => {
             return response.data;
         })
     }

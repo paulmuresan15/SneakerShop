@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class StockService {
@@ -37,18 +38,21 @@ public class StockService {
 
 
     @Transactional
-    public void alterStock(Long productId, String size, int quantity){
+    public void alterStock(Long productId, String size, int quantity) throws Exception {
         if(quantity<0){
             removeStock(productId,size,quantity);
         }else{
             addStock(productId,size,quantity);
         }
     }
-    private void removeStock(Long productId, String size, int quantity){
+    private void removeStock(Long productId, String size, int quantity) throws Exception {
         Optional<Stock> stockOptional = stockRepository.findStockByProductIdAndSize(productId, size);
         if(stockOptional.isPresent()) {
             Stock stock = stockOptional.get();
             stock.setQuantity(stock.getQuantity() - Math.abs(quantity));
+            if(stock.getQuantity() < 0){
+                throw new Exception("Stock cannot be negative");
+            }
             stockRepository.save(stock);
         }
     }
@@ -79,5 +83,31 @@ public class StockService {
             }
         }
         return smallestPrice;
+    }
+
+    public List<StockDTO> getAllEntries(){
+        List<Stock> stocks = stockRepository.findAll();
+        List<StockDTO> stockDTOS = stocks.stream().map(StockDTO::new).collect(Collectors.toList());
+        return stockDTOS;
+    }
+
+    @Transactional
+    public void editStock(StockDTO stockDTO) {
+        Optional<Stock> stockOptional = stockRepository.findById(stockDTO.getId());
+        stockOptional.ifPresent(stock -> {
+            if(!stock.getQuantity().equals(stockDTO.getQuantity())){
+                stock.setQuantity(stockDTO.getQuantity());
+            }
+            if(!stock.getPrice().equals(stockDTO.getPrice())){
+                stock.setPrice(stockDTO.getPrice());
+            }
+            if(!stock.getSize().equals(stockDTO.getSize())){
+                stock.setSize(stockDTO.getSize());
+            }
+            if(stock.isFeatured() != stockDTO.isFeatured()){
+                stock.setFeatured(stockDTO.isFeatured());
+            }
+            stockRepository.save(stock);
+        });
     }
 }

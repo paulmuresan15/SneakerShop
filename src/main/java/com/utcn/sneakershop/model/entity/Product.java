@@ -36,4 +36,10 @@ public class Product {
         this.name = name;
         this.photoUrl=photoUrl;
     }
+
+    public Product(Category category, Brand brand, String name) {
+        this.category = category;
+        this.brand = brand;
+        this.name = name;
+    }
 }

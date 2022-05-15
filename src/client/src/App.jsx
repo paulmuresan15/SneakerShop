@@ -18,6 +18,20 @@ import ControlPanelStock from "./ControlPanel/ControlPanelStock";
 import ControlPanelUsersDelete from "./ControlPanel/ControlPanelUsersDelete";
 import ControlPanelUsersEditUser from "./ControlPanel/ControlPanelUsersEditUser";
 import ControlPanelUsersEdit from "./ControlPanel/ControlPanelUsersEdit";
+import ControlPanelBrandsAdd from "./ControlPanel/ControlPanelBrandsAdd";
+import ControlPanelBrandsEdit from "./ControlPanel/ControlPanelBrandsEdit";
+import ControlPanelBrandsEditBrand from "./ControlPanel/ControlPanelBrandsEditBrand";
+import ControlPanelBrandsDelete from "./ControlPanel/ControlPanelBrandsDelete";
+import ControlPanelProductsAdd from "./ControlPanel/ControlPanelProductsAdd";
+import ControlPanelProductsEdit from "./ControlPanel/ControlPanelProductsEdit";
+import ControlPanelProductsEditProduct from "./ControlPanel/ControlPanelProductsEditProduct";
+import ControlPanelProductsDelete from "./ControlPanel/ControlPanelProductsDelete";
+import ProductDetails from "./ControlPanel/ProductDetails";
+import ShoppingCart from "./ControlPanel/ShoppingCart";
+import ControlPanelStockAdd from "./ControlPanel/ControlPanelStockAdd";
+import ControlPanelStockEdit from "./ControlPanel/ControlPanelStockEdit";
+import ControlPanelStockEditStock from "./ControlPanel/ControlPanelStockEditStock";
+import ControlPanelStockDelete from "./ControlPanel/ControlPanelStockDelete";
 
 
 
@@ -37,14 +51,28 @@ function App(){
           <Route path="/Register" element={<Register/>}></Route>
           <Route path="/Login" element={<Login/>}></Route>
           <Route path="/Logout" element={<Logout/>}></Route>
+          <Route path="/ProductDetails" element={<ProductDetails/>}></Route>
+          <Route path="/ShoppingCart" element={<ShoppingCart/>}></Route>
           <Route path="/ControlPanel" element={<ControlPanel/>}></Route>
           <Route path="/ControlPanelUsers" element={<ControlPanelUsers/>}></Route>
           <Route path="/ControlPanelUsersDelete" element={<ControlPanelUsersDelete/>}></Route>
           <Route path="/ControlPanelUsersEdit" element={<ControlPanelUsersEdit/>}></Route>
           <Route path="/ControlPanelUsersEditUser" element={<ControlPanelUsersEditUser/>}></Route>
           <Route path="/ControlPanelBrands" element={<ControlPanelBrands/>}></Route>
+          <Route path="/ControlPanelBrandsAdd" element={<ControlPanelBrandsAdd/>}></Route>
+          <Route path="/ControlPanelBrandsEdit" element={<ControlPanelBrandsEdit/>}></Route>
+          <Route path="/ControlPanelBrandsEditBrand" element={<ControlPanelBrandsEditBrand/>}></Route>
+          <Route path="/ControlPanelBrandsDelete" element={<ControlPanelBrandsDelete/>}></Route>
           <Route path="/ControlPanelProducts" element={<ControlPanelProducts/>}></Route>
+          <Route path="/ControlPanelProductsAdd" element={<ControlPanelProductsAdd/>}></Route>
+          <Route path="/ControlPanelProductsEdit" element={<ControlPanelProductsEdit/>}></Route>
+          <Route path="/ControlPanelProductsEditProduct" element={<ControlPanelProductsEditProduct/>}></Route>
+          <Route path="/ControlPanelProductsDelete" element={<ControlPanelProductsDelete/>}></Route>
           <Route path="/ControlPanelStock" element={<ControlPanelStock/>}></Route>
+          <Route path="/ControlPanelStockAdd" element={<ControlPanelStockAdd/>}></Route>
+          <Route path="/ControlPanelStockEdit" element={<ControlPanelStockEdit/>}></Route>
+          <Route path="/ControlPanelStockEditStock" element={<ControlPanelStockEditStock/>}></Route>
+          <Route path="/ControlPanelStockDelete" element={<ControlPanelStockDelete/>}></Route>
           </Routes>
       </UserContext.Provider>
     </Router>

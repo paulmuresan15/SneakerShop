@@ -32,7 +32,7 @@ function Casual() {
                     <Row>
                         {casualProducts.map((product, index) => {
                             return <ProductCard key={index} productId={product.id} productName={product.name}
-                                                productUrl={product.photoUrl}
+                                                photoUrl={product.photoUrl} stocks={product.stockDTOS}
                             />
                         })
                         }

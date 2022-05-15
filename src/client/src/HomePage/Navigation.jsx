@@ -15,6 +15,8 @@ import { IconContext } from "react-icons";
 import logo from "../Pictures/logo.png";
 import { UserContext } from "./User/UserContext";
 import AuthService from "../services/AuthService";
+import cartService from "../services/CartService";
+import productService from "../services/ProductService";
 
 function Navigation() {
     const [user,setUser] = useState();
@@ -22,6 +24,8 @@ function Navigation() {
     const [controlPanelText, setControlPanelText] = useState("");
     const [loginLogoutText, setLoginLogoutText] = useState("");
     const [loginLogoutHref, setLoginLogoutHref] = useState("");
+    const [cartSize,setCartSize] = useState();
+
 
     useEffect(() => {
         if (AuthService.getCurrentUser()) {
@@ -32,7 +36,11 @@ function Navigation() {
             setLoginLogoutText("Login");
             setLoginLogoutHref("/Login");
         }
-
+        if(user) {
+            cartService.getCartSize(user.id).then(response => {
+                setCartSize(response);
+            })
+        }
     }, []);
 
     useEffect(() => {
@@ -41,34 +49,11 @@ function Navigation() {
                 setControlPanelHref("/ControlPanel");
                 setControlPanelText("Control Panel");
             }
+            cartService.getCartSize(user.id).then(response => {
+                setCartSize(response);
+            })
         }
     },[user]);
-
-    // useEffect(() => {
-    //     if(user) {
-    //         if (user.roles.includes("ROLE_ADMIN")) {
-    //             setRenderControlPanel(true);
-    //         } else {
-    //             setRenderControlPanel(false);
-    //         }
-    //         console.log(renderControlPanel);
-    //     }
-    // },[]);
-    //
-    // useEffect(() => {
-    //     if(user) {
-    //         if (user.roles.includes("ROLE_ADMIN")) {
-    //             setRenderControlPanel(true);
-    //         } else {
-    //             setRenderControlPanel(false);
-    //         }
-    //         console.log(renderControlPanel);
-    //     }
-    // },[user]);
-
-
-
-
 
     return (
         <Navbar  fixed="top" collapseOnSelect expand="lg" bg="dark" variant="dark" className="navbar">
@@ -87,6 +72,7 @@ function Navigation() {
                         <Nav.Link href={controlPanelHref} element={<Casual />}>{controlPanelText}</Nav.Link>
                     </Nav>
                     <Nav className="ml-2">
+                        <p className="cart-text">{cartSize}</p>
                         <Nav.Link href="/ShoppingCart">
                             <IconContext.Provider value={{ className: "navbarIcon" }}>
                                 <AiOutlineShoppingCart />
@@ -106,6 +92,5 @@ function Navigation() {
         </Navbar>
     )
 }
-
 export default Navigation;
 

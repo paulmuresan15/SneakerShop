@@ -7,7 +7,7 @@ import authService from "../../services/AuthService";
 import { useNavigate } from 'react-router-dom';
 import {Container} from "@mui/material";
 import {Form} from "react-bootstrap";
-import {Button} from "react-native";
+import {Button} from "@mui/material";
 
 function Login(props) {
     const [email, setEmail] = useState("");
@@ -43,14 +43,14 @@ function Login(props) {
                         <Form.Label>Password</Form.Label>
                         <Form.Control onChange={handlePasswordInput} type="password" placeholder="Password" />
                     </Form.Group>
-                    <button  onClick={(e) => {
+                    <Button variant="contained"   onClick={(e) => {
                         e.preventDefault();
                         authService.login(email, password).then(() => {
                             navigate("/");
                         })}
                     }>
                         Submit
-                    </button>
+                    </Button>
                 </Form>
             </Container>
 

@@ -17,25 +17,11 @@ import java.util.stream.Collectors;
 public class BrandService {
 
     private final BrandRepository brandRepository;
-    private final PhotoUtils photoUtils;
-
-    @Value("${file.image.extension}")
-    private String IMAGE_EXTENSION;
-
-    @Value("${file.storage.path.brands}")
-    private String LOGO_STORAGE_PATH;
-
-    @Value("${file.image.width}")
-    private String TARGET_WIDTH;
-
-    @Value("${file.image.height}")
-    private String TARGET_HEIGHT;
 
 
     @Autowired
-    public BrandService(BrandRepository brandRepository, PhotoUtils photoUtils) {
+    public BrandService(BrandRepository brandRepository) {
         this.brandRepository = brandRepository;
-        this.photoUtils = photoUtils;
     }
 
     @Transactional
@@ -62,30 +48,10 @@ public class BrandService {
     public void editBrand(BrandDTO brandDTO) {
         brandRepository.findById(brandDTO.getId()).ifPresent(brand -> {
             brand.setName(brandDTO.getName());
-            brand.setDescription(brandDTO.getDescription());
-            if (brandDTO.getEncodedAvatar() != null) {
-                brand.setLogoUrl(changeLogoForBrand(brandDTO));
-            }
         });
     }
 
-    private String changeLogoForBrand(BrandDTO brandDTO) {
-        try {
-            return saveLogo(brandDTO.getEncodedAvatar(), brandDTO.getId());
-        } catch (Exception e) {
-            return "";
-        }
-    }
 
-
-    private String saveLogo(MultipartFile logo, Long id) {
-        if (logo != null) {
-            String brandId = id.toString();
-            String filename = brandId + "." + IMAGE_EXTENSION;
-            return photoUtils.savePhoto(logo, filename, LOGO_STORAGE_PATH, IMAGE_EXTENSION, TARGET_WIDTH, TARGET_HEIGHT);
-        }
-        return "";
-    }
 
 
 }

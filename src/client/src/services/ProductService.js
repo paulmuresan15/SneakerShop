@@ -19,6 +19,7 @@ class ProductService{
                     "id": item.id,
                     "name": item.name,
                     "photoUrl": item.photoUrl,
+                    "stockDTOS": item.stockDTOS
                 }
             });
         });
@@ -31,24 +32,29 @@ class ProductService{
     }
 
     addNewProduct(name,category,brand,encodedPhoto){
-        return axios.post(API_URL + "add",{
-            name:name,
-            category:category,
-            brand:brand,
-            encodedPhoto:encodedPhoto
-        },{headers : authHeader()}).then(response => {
+        const formData = new FormData();
+        formData.append("name",name);
+        formData.append("category",category);
+        formData.append("brand",brand);
+        formData.append("encodedPhoto",encodedPhoto);
+        return axios.post(API_URL + "add",
+            formData,{headers : authHeader()}).then(response => {
             return response.data;
         });
     }
 
     editProduct(id,name,category,brand,encodedPhoto){
-        return axios.post(API_URL + "edit",{
-            id:id,
-            name:name,
-            category:category,
-            brand:brand,
-            encodedPhoto:encodedPhoto
-        },{headers : authHeader()}).then(response => {
+        const formData = new FormData();
+        formData.append("id",id);
+        formData.append("name",name);
+        formData.append("category",category);
+        formData.append("brand",brand);
+        if(encodedPhoto) {
+            formData.append("encodedPhoto", encodedPhoto);
+        }
+        return axios.post(API_URL + "edit",
+           formData
+        ,{headers : authHeader()}).then(response => {
             return response.data;
         });
     }
@@ -75,6 +81,12 @@ class ProductService{
 
     getAllElegantProducts() {
         return axios.get(API_URL + "elegant").then(response => {
+            return response.data;
+        })
+    }
+
+    deleteById(id) {
+        return axios.delete(API_URL + "delete",{params : {id : id}}).then(response => {
             return response.data;
         })
     }

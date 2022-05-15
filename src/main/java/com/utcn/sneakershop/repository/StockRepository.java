@@ -12,7 +12,7 @@ import java.util.Optional;
 
 @Repository
 public interface StockRepository extends JpaRepository<Stock, Long> {
-    @Query("select new com.utcn.sneakershop.model.dto.StockDTO(s.size,s.price,s.quantity,s.isOnSale) " +
+    @Query("select new com.utcn.sneakershop.model.dto.StockDTO(s.size,s.price,s.quantity,s.isFeatured) " +
             "from Stock s where s.product.id = :id")
     List<StockDTO> getStockDetailsForProductById(@Param("id") Long id);
 
