@@ -8,7 +8,7 @@ import "bootstrap/dist/css/bootstrap.css";
 import "modern-normalize/modern-normalize.css";
 import { StrictMode } from "react";
 import { BrowserRouter } from "react-router-dom";
-import FirstPage from "./HomePage/FirstPage";
+import FirstPage from "./Components/HomePage/FirstPage";
 import { Route, Routes } from "react-router-dom";
 
 ReactDOM.render(

@@ -117,7 +117,7 @@ public class ProductService {
         return new ProductDTO();
     }
 
-    public List<ProductDTO> getProductsOnSale() {
+    public List<ProductDTO> getFeaturedProducts() {
         List<ProductDTO> productDTOS = productRepository.getFeaturedProducts().stream().limit(5).collect(Collectors.toList());
         for (ProductDTO productDTO : productDTOS) {
             loadPhoto(productDTO);

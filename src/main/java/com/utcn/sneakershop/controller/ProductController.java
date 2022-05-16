@@ -1,42 +1,21 @@
 package com.utcn.sneakershop.controller;
 
-import com.sun.mail.iap.ByteArray;
-import com.utcn.sneakershop.SneakerShopApplication;
-import com.utcn.sneakershop.model.dto.EditProductDTO;
 import com.utcn.sneakershop.model.dto.ProductDTO;
-import com.utcn.sneakershop.model.entity.Product;
 import com.utcn.sneakershop.service.ProductService;
 import org.apache.tomcat.util.http.fileupload.ByteArrayOutputStream;
-import org.apache.tomcat.util.http.fileupload.IOUtils;
-import org.aspectj.apache.bcel.util.ClassPath;
-import org.hibernate.engine.jdbc.StreamUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.ByteArrayResource;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.core.io.ResourceLoader;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
-import javax.annotation.Resource;
 import javax.annotation.security.RolesAllowed;
 import javax.imageio.ImageIO;
-import javax.mail.Multipart;
-import javax.servlet.Servlet;
-import javax.servlet.ServletContext;
 import javax.validation.Valid;
 import java.awt.image.BufferedImage;
-import java.awt.image.ImageObserver;
 import java.io.*;
-import java.net.URI;
-import java.nio.file.FileSystem;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.security.URIParameter;
 import java.util.Base64;
 import java.util.List;
 
@@ -100,10 +79,10 @@ public class ProductController {
         }
     }
 
-    @GetMapping("/sale")
-    public ResponseEntity<List<ProductDTO>> getProductsOnSale() {
+    @GetMapping("/featured")
+    public ResponseEntity<List<ProductDTO>> getFeaturedProducts() {
 
-            return new ResponseEntity<>(productService.getProductsOnSale(), HttpStatus.OK);
+            return new ResponseEntity<>(productService.getFeaturedProducts(), HttpStatus.OK);
 
     }
 
