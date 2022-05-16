@@ -67,12 +67,20 @@ function ControlPanelProductsAdd() {
                             <Form.Control onChange={(e) => setPrice(e.target.value)} placeholder="Price" />
                         </Form.Group>
                         <Form.Label>Featured</Form.Label>
-                        <Form.Select onChange={(e) => setFeatured(e.target.value)} aria-label="Featured">
-                                <option value={false}>false</option>
-                                <option value={true}>true</option>)
+                        <Form.Select onChange={(e) => {
+                            console.log(e.target.value);
+                            if (e.target.value == 1) {
+                               setFeatured(true);
+                            }else{
+                                setFeatured(false);
+                            }
+                        }} aria-label="Featured">
+                                <option value={0}>false</option>
+                                <option value={1}>true</option>)
                         </Form.Select>
                         <Button variant="contained"  onClick={(e) => {
                             e.preventDefault();
+                            console.log(featured);
                             stockService.addStockToProduct(productId,size,price,quantity,featured) .then(()  => navigate(-1));
                         }}>
                             Submit

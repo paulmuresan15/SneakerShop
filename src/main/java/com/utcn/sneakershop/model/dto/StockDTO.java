@@ -1,5 +1,6 @@
 package com.utcn.sneakershop.model.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.utcn.sneakershop.model.entity.Stock;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -17,6 +18,7 @@ public class StockDTO {
     private String size;
     private Double price;
     private Integer quantity;
+    @JsonProperty
     private boolean isFeatured;
 
     public StockDTO(String size, Double price, Integer quantity, boolean isFeatured) {

@@ -4,13 +4,13 @@ const API_URL = "http://localhost:8081/stock/";
 
 class StockService{
 
-    addStockToProduct(productId,size,price,quantity,isFeatured){
+    addStockToProduct(productId,size,price,quantity,featured){
         return axios.post(API_URL + "add",{
             productId:productId,
             size:size,
             price:price,
             quantity:quantity,
-            isFeatured:isFeatured
+            isFeatured:true
         },{headers : authHeader()}).then(response => {
             return response.data;
         });

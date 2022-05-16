@@ -31,7 +31,7 @@ public class StockService {
     public void addStock(StockDTO stockDTO){
         Optional<Product> productOptional = productRepository.findById(stockDTO.getProductId());
         if(productOptional.isPresent()){
-            Stock stock = new Stock(productOptional.get(),stockDTO.getSize(),stockDTO.getQuantity(), stockDTO.getPrice());
+            Stock stock = new Stock(productOptional.get(),stockDTO.getSize(),stockDTO.getQuantity(), stockDTO.getPrice(),stockDTO.isFeatured());
             stockRepository.save(stock);
         }
     }

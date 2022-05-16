@@ -36,4 +36,12 @@ public class Stock {
         this.quantity = quantity;
         this.price = price;
     }
+
+    public Stock(Product product, String size, Integer quantity, Double price, boolean featured) {
+        this.product = product;
+        this.size = size;
+        this.quantity = quantity;
+        this.price = price;
+        this.setFeatured(featured);
+    }
 }
