@@ -6,8 +6,14 @@ import { IoMdLogIn } from "react-icons/io";
 import "./loginStyle.css";
 import { UserContext } from "../../HomePage/User/UserContext";
 import { config } from "../../config/config";
+import {Form} from "react-bootstrap";
+import authService from "../../services/AuthService";
+import {Button} from "@mui/material";
+import {useNavigate} from "react-router-dom";
+import FooterPage from "../FooterPage";
 
 function Register() {
+  const navigate=useNavigate();
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [userName, setUsername] = useState("");
@@ -18,122 +24,50 @@ function Register() {
 
   // function to update state of name with
   // value enter by user in form
-  const handleFirstNameChange = (e) => {
-    setFirstName(e.target.value);
-  };
 
-  const handleLastNameChange = (e) => {
-    setLastName(e.target.value);
-  };
-  // function to update state of email with value
-  // enter by user in form
-  const handleEmailChange = (e) => {
-    setEmail(e.target.value);
-  };
-  const handleUsernameChange = (e) => {
-    setUsername(e.target.value);
-  };
-  // function to update state of password with
-  // value enter by user in form
-  const handlePasswordChange = (e) => {
-    setPassword(e.target.value);
-  };
-  // function to update state of confirm password
-  // with value enter by user in form
-  const handleConfPasswordChange = (e) => {
-    setConfPassword(e.target.value);
-  };
-  // below function will be called when user
-  // click on submit button .
-  const handleSubmit = (e) => {
-    if (password != confPassword) {
-      // if 'password' and 'confirm password'
-      // does not match.
-      alert("password Not Match");
-    } else {
-      // display alert box with user
-      // 'name' and 'email' details .
-    }
-    e.preventDefault();
-  };
   return (
     <div className="mainContainer">
       <div className="navbar">
         <Navigation />
       </div>
-      <p className="loginWriting">Register</p>
-      <div>
-        <div>
-          <p className="loginWriting">First Name</p>
-          <input
-            onChange={handleFirstNameChange}
-            placeholder="Enter username"
-            className="inputContainer"
-          />
-        </div>
+      <Form className="register-form">
+      <Form.Group className="mb-3" controlId="formBasicEmail">
+        <Form.Label>First Name</Form.Label>
+        <Form.Control onChange={(e) => setFirstName(e.target.value)}  placeholder="Enter first name" />
+      </Form.Group> <Form.Group className="mb-3" controlId="formBasicEmail">
+        <Form.Label>Last Name</Form.Label>
+        <Form.Control onChange={(e) => setLastName(e.target.value)}  placeholder="Enter last name" />
+      </Form.Group>
+        <Form.Group className="mb-3" controlId="formBasicEmail">
+        <Form.Label>Email address</Form.Label>
+        <Form.Control onChange={(e) => setEmail(e.target.value)} type="email" placeholder="Enter email" />
+      </Form.Group>
+        <Form.Group className="mb-3" controlId="formBasicEmail">
+        <Form.Label>Username</Form.Label>
+        <Form.Control onChange={(e) => setUsername(e.target.value)}  placeholder="Enter username" />
+      </Form.Group>
 
-        <div>
-          <p className="loginWriting">Last Name</p>
-          <input
-            onChange={handleLastNameChange}
-            placeholder="Enter username"
-            className="inputContainer"
-          />
-        </div>
-        <div style={{ marginTop: 10 }}>
-          <p className="loginWriting">Email</p>
-          <input
-            onChange={handleEmailChange}
-            placeholder="Enter email"
-            className="inputContainer"
-          />
-        </div>
-        <div style={{ marginTop: 10 }}>
-          <p className="loginWriting">Username</p>
-          <input
-            onChange={handleUsernameChange}
-            placeholder="Enter email"
-            className="inputContainer"
-          />
-        </div>
-        <div style={{ marginTop: 10 }}>
-          <p className="loginWriting">Password</p>
-          <input
-            onChange={handlePasswordChange}
-            placeholder="Enter password"
-            className="inputContainer"
-          />
-        </div>
-
-        <div style={{ marginTop: 10 }}>
-          <p className="loginWriting">Confirm Password</p>
-          <input
-            onChange={handleConfPasswordChange}
-            placeholder="Reenter the password"
-            className="inputContainer"
-          />
-        </div>
-      </div>
-      <button>
-        <IoMdLogIn
-            className="loginButton"
-            onClick={() => {
-              axios.post(`http://localhost:8081/register`, {
-                email:email,
-                username:userName,
-                password:password,
-                firstName:firstName,
-                lastName:lastName
-              }).then((response) => {
-                console.log("Register OK");
-                setUser(response.data);
-              });
-            }}
-        >
-          LOGIN
-        </IoMdLogIn>
-      </button>
-
+      <Form.Group className="mb-3" controlId="formBasicPassword">
+        <Form.Label>Password</Form.Label>
+        <Form.Control onChange={(e) => setPassword(e.target.value)} type="password" placeholder="Password" />
+      </Form.Group>
+        <Form.Group className="mb-3" controlId="formBasicPassword">
+        <Form.Label>Password</Form.Label>
+        <Form.Control onChange={(e) => setConfPassword(e.target.value)} type="password" placeholder="Password" />
+      </Form.Group>
+        <Button variant="contained"   onClick={(e) => {
+          e.preventDefault();
+          if(password === confPassword){
+            authService.register(email,userName,password,firstName,lastName).then(() => {
+              navigate("/");
+            })} else {
+            alert("Passwords do not match");
+          }
+          }}>
+          Submit
+        </Button>
+      </Form>
+    <FooterPage/>
     </div>
   );
 }

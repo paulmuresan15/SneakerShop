@@ -43,10 +43,13 @@ function FirstPage() {
                 <Col>
                     <Row>
                         { productsOnSale.map((product,index) => {
+
                             console.log(product.stockDTOS);
-                           return <ProductCard key={index} productId={product.id} productName={product.name}
-                                         photoUrl={product.photoUrl} stocks={product.stockDTOS}
-                                         />
+                           return <Col>
+                               <ProductCard key={index} productId={product.id} productName={product.name}
+                                            photoUrl={product.photoUrl} stocks={product.stockDTOS}
+                               />
+                           </Col>
                         })
                         }
                     </Row>
